@@ -32,6 +32,11 @@ public class LongShadowsGenerator {
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             View view = viewGroup.getChildAt(i);
             if (view instanceof LongShadowsImageView) {
+
+                if (!((LongShadowsImageView) view).isShadowDirty()) {
+                    return;
+                }
+
                 view.buildDrawingCache();
                 Bitmap bitmap = view.getDrawingCache();
 
@@ -44,29 +49,11 @@ public class LongShadowsGenerator {
 
                 Point2D[] points = getContours(intArray, width, height);
 
-                Log.d("TIME", "TIME_2");
-
-//                ArrayList<Path> paths = new ArrayList<>();
-
-//                if (points.length > 0) {
-//                    Path temp = new Path();
-//                    temp.moveTo(points[0].getX(), points[0].getY());
-//                    for (int j = 1; j < points.length; j++) {
-//                        if (points[j].getX() != -1 && points[j].getY() != -1) {
-//                            temp.lineTo(points[j].getX(), points[j].getY());
-//                        } else if (points[j].getX() == -1 && points[j].getY() == -1) {
-//                            temp.close();
-//                            paths.add(new Path(temp));
-//                            temp.reset();
-//                            if (j != points.length - 1) {
-//                                temp.moveTo(points[j + 1].getX(), points[j + 1].getY());
-//                                j++;
-//                            }
-//                        }
-//                    }
-//                }
+                Log.d("TIME_CPP_START", "TIME_2");
 
                 ArrayList<ArrayList<Point2D>> allContours = new ArrayList<>();
+
+                Log.d("TIME_CPP_END", "TIME_2");
 
                 ArrayList<Point2D> contour = new ArrayList<>();
 
@@ -81,7 +68,6 @@ public class LongShadowsGenerator {
                     }
                 }
 
-//                Path contourTemp = new Path();
                 Path temp = new Path();
 
                 for (ArrayList<Point2D> contourPoints : allContours) {
@@ -100,10 +86,8 @@ public class LongShadowsGenerator {
 
                         temp.close();
                         paths.add(new ShadowPath(new Path(temp), new Point2D[]{pointFirst, pointSecond, pointThird, pointFourth}, 45));
-//                        contourTemp.addPath(new Path(temp));
                         temp.reset();
                     }
-//                    contourTemp.reset();
                 }
 
 

@@ -29,6 +29,8 @@ public class LongShadowsImageView extends ImageView {
     private ArrayList<ShadowPath> shadowPaths;
     private Paint shadowPaint;
 
+    private boolean isShadowDirty = true;
+
     public LongShadowsImageView(Context context) {
         super(context);
         this.context = context;
@@ -85,7 +87,15 @@ public class LongShadowsImageView extends ImageView {
 
     public void setShadowPaths(ArrayList<ShadowPath> shadowPaths) {
         this.shadowPaths = shadowPaths;
+        isShadowDirty = false;
         invalidate();
     }
 
+    public boolean isShadowDirty() {
+        return isShadowDirty;
+    }
+
+    public void setShadowDirty(boolean shadowDirty) {
+        isShadowDirty = shadowDirty;
+    }
 }
