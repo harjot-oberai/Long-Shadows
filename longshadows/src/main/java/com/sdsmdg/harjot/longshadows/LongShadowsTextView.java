@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sdsmdg.harjot.longshadows.models.ShadowPath;
 import com.sdsmdg.harjot.longshadows.shadowutils.Utils;
@@ -16,10 +16,10 @@ import com.sdsmdg.harjot.longshadows.shadowutils.Utils;
 import java.util.ArrayList;
 
 /**
- * Created by Harjot on 28-Jan-18.
+ * Created by Harjot on 31-Jan-18.
  */
 
-public class LongShadowsImageView extends ImageView {
+public class LongShadowsTextView extends TextView {
 
     private Context context;
 
@@ -30,18 +30,18 @@ public class LongShadowsImageView extends ImageView {
 
     private boolean isShadowDirty = true;
 
-    public LongShadowsImageView(Context context) {
+    public LongShadowsTextView(Context context) {
         super(context);
         this.context = context;
     }
 
-    public LongShadowsImageView(Context context, @Nullable AttributeSet attrs) {
+    public LongShadowsTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();
     }
 
-    public LongShadowsImageView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LongShadowsTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         init();
@@ -49,7 +49,7 @@ public class LongShadowsImageView extends ImageView {
 
     void init() {
 
-        shadowLength = 1;
+        shadowLength = 100;
 
         shadowPaths = new ArrayList<>();
 
@@ -60,7 +60,8 @@ public class LongShadowsImageView extends ImageView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(final Canvas canvas) {
+
 
         Log.d("TIME", "RENDER_START");
         if (shadowPaths != null && shadowPaths.size() > 0) {
@@ -69,6 +70,7 @@ public class LongShadowsImageView extends ImageView {
                 canvas.drawPath(shadowPath.getPath(), shadowPaint);
             }
         }
+
         Log.d("TIME", "RENDER_FINISH");
 
         super.onDraw(canvas);
@@ -88,4 +90,5 @@ public class LongShadowsImageView extends ImageView {
     public void setShadowDirty(boolean shadowDirty) {
         isShadowDirty = shadowDirty;
     }
+
 }

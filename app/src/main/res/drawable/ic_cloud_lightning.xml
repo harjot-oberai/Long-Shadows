@@ -23,7 +23,7 @@
             android:strokeColor="#000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
-            android:strokeWidth="2"/>
+            android:strokeWidth="2" />
     </group>
 
 </vector>

@@ -8,37 +8,82 @@ import android.graphics.Path;
 
 public class ShadowPath {
 
-    private Path path;
-    private Point2D[] pathPoints;
-    private float angle;
+    private Point2D[] points;
+    private Point2D startPointOne, startPointTwo, endPointOne, endPointTwo;
 
-    public ShadowPath(Path path, Point2D[] pathPoints, float angle) {
-        this.path = path;
-        this.pathPoints = pathPoints;
-        this.angle = angle;
+    private Path path;
+
+    private boolean isPathDirty = true;
+
+    public ShadowPath(Point2D[] points, Point2D startPointOne, Point2D startPointTwo, Point2D endPointOne, Point2D endPointTwo) {
+        this.points = points;
+        this.startPointOne = startPointOne;
+        this.startPointTwo = startPointTwo;
+        this.endPointOne = endPointOne;
+        this.endPointTwo = endPointTwo;
+    }
+
+    public Point2D[] getPoints() {
+        return points;
+    }
+
+    public void setPoints(Point2D[] points) {
+        this.points = points;
+    }
+
+    public Point2D getStartPointOne() {
+        return startPointOne;
+    }
+
+    public void setStartPointOne(Point2D startPointOne) {
+        this.startPointOne = startPointOne;
+    }
+
+    public Point2D getStartPointTwo() {
+        return startPointTwo;
+    }
+
+    public void setStartPointTwo(Point2D startPointTwo) {
+        this.startPointTwo = startPointTwo;
+    }
+
+    public Point2D getEndPointOne() {
+        return endPointOne;
+    }
+
+    public void setEndPointOne(Point2D endPointOne) {
+        this.endPointOne = endPointOne;
+    }
+
+    public Point2D getEndPointTwo() {
+        return endPointTwo;
+    }
+
+    public void setEndPointTwo(Point2D endPointTwo) {
+        this.endPointTwo = endPointTwo;
+    }
+
+    public void constructPath() {
+        if (path == null) {
+            path = new Path();
+        } else if (isPathDirty) {
+            path.reset();
+        } else {
+            return;
+        }
+
+        if (points.length > 0) {
+            path.moveTo(points[0].getX(), points[0].getY());
+            for (int i = 1; i < points.length; i++) {
+                path.lineTo(points[i].getX(), points[i].getY());
+            }
+            path.close();
+        }
+
     }
 
     public Path getPath() {
         return path;
     }
 
-    public void setPath(Path path) {
-        this.path = path;
-    }
-
-    public Point2D[] getPathPoints() {
-        return pathPoints;
-    }
-
-    public void setPathPoints(Point2D[] pathPoints) {
-        this.pathPoints = pathPoints;
-    }
-
-    public float getAngle() {
-        return angle;
-    }
-
-    public void setAngle(float angle) {
-        this.angle = angle;
-    }
 }

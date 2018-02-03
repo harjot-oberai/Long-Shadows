@@ -13,59 +13,17 @@
 
 #define ALPHA_0 0
 
+#define PI 3.14159265
+
 using namespace std;
 
-vector<vector<pair<int, int> > > contours(int arr[], int width, int height);
-
-jobjectArray convertToObjectArray(JNIEnv *env, vector<vector<pair<int, int> > > contours);
-
-vector<pair<int, int> > getFinalPathPointsFromContour(vector<pair<int, int> > points);
-
-extern "C"
-JNIEXPORT jobjectArray JNICALL
-Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
-        JNIEnv *env,
-        jobject,
-        jintArray arr,
-        jint width,
-        jint height) {
-
-    vector<vector<pair<int, int> > > ans;
-    ans.clear();
-
-    jint *c_array = (env)->GetIntArrayElements(arr, NULL);
-
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 1 ");
-
-    ans = contours(c_array, width, height);
-
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 2 ");
-
-//    for (int i = 0; i < ans.size(); i++) {
-//        for (int j = 0; j < ans[i].size(); j++) {
-//            __android_log_print(ANDROID_LOG_DEBUG, "DEBUG_CPP", " x : %d, y : %d",
-//                                ans[i][j].first,
-//                                ans[i][j].second);
-//        }
-//        __android_log_print(ANDROID_LOG_DEBUG, "DEBUG_CPP", " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ");
-//    }
-
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3 ");
-
-    for (int i = 0; i < ans.size(); i++) {
-
-        __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 0);
-
-        ans[i] = getFinalPathPointsFromContour(ans[i]);
-
-        __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 1);
-    }
-
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 4 ");
-
-    return convertToObjectArray(env, ans);
-
-}
+struct ShadowPath {
+    vector<pair<int, int> > points;
+    pair<int, int> startPointOne;
+    pair<int, int> startPointTwo;
+    pair<int, int> endPointOne;
+    pair<int, int> endPointTwo;
+};
 
 vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
     int mat[height + 1][width + 1];
@@ -84,7 +42,7 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
         id[i / width][i % width] = 0;
     }
 
-    int cnt = 0, x, y;
+    int cnt = 0, x, y, x1, y1;
     pair<int, int> tp;
 
     for (int i = 0; i < height; i++) {
@@ -119,7 +77,31 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
                     assert(mat[x][y] != ALPHA_0);
 
                     id[x][y] = cnt;
-                    temp.push_back(make_pair(y, x));
+
+                    bool flag = false;
+
+                    for (int i1 = -1; i1 < 2; i1++) {
+                        for (int j1 = -1; j1 < 2; j1++) {
+                            x1 = x + i1;
+                            y1 = y + j1;
+
+                            if (x1 < 0 || y1 < 0 || x1 >= height || y1 >= width) {
+                                flag = true;
+                                break;
+                            }
+
+                            if (mat[x1][y1] == ALPHA_0) {
+                                flag = true;
+                                break;
+                            }
+                        }
+
+                        if (flag)
+                            break;
+                    }
+
+                    if (flag)
+                        temp.push_back(make_pair(y, x));
 
                     q.push(make_pair(x - 1, y - 1));
                     q.push(make_pair(x - 1, y));
@@ -139,36 +121,61 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
     return ans;
 }
 
-jobjectArray convertToObjectArray(JNIEnv *env, vector<vector<pair<int, int> > > contours) {
-    int size = 0;
+jobjectArray convertToObjectArray(JNIEnv *env, vector<ShadowPath> shadowPaths) {
 
-    for (int i = 0; i < contours.size(); i++) {
-        size += contours[i].size();
-    }
+    jclass shadowPathClass = (env)->FindClass("com/sdsmdg/harjot/longshadows/models/ShadowPath");
+    jobjectArray shadowObjectArray = (env)->NewObjectArray(shadowPaths.size(), shadowPathClass,
+                                                           NULL);
+    jmethodID shadowClassConstructor = (env)->GetMethodID(shadowPathClass, "<init>",
+                                                          "([Lcom/sdsmdg/harjot/longshadows/models/Point2D;"
+                                                                  "Lcom/sdsmdg/harjot/longshadows/models/Point2D;"
+                                                                  "Lcom/sdsmdg/harjot/longshadows/models/Point2D;"
+                                                                  "Lcom/sdsmdg/harjot/longshadows/models/Point2D;"
+                                                                  "Lcom/sdsmdg/harjot/longshadows/models/Point2D;)"
+                                                                  "V");
+    jobject shadowPathObject;
 
-    size += contours.size();
+    for (int i = 0; i < shadowPaths.size(); i++) {
 
-    jclass javaClass = (env)->FindClass("com/sdsmdg/harjot/longshadows/models/Point2D");
-    jobjectArray objArray = (env)->NewObjectArray(size, javaClass, NULL);
-    jmethodID methodID = (env)->GetMethodID(javaClass, "<init>", "(II)V");
-    jobject obj;
+        vector<pair<int, int> > points = shadowPaths[i].points;
 
-    int number = 0;
-    for (int i = 0; i < contours.size(); i++) {
-        vector<pair<int, int> > points = contours[i];
+        jclass pointClass = (env)->FindClass("com/sdsmdg/harjot/longshadows/models/Point2D");
+        jobjectArray pointArray = (env)->NewObjectArray(points.size(), pointClass, NULL);
+        jmethodID pointClassConstructor = (env)->GetMethodID(pointClass, "<init>", "(II)V");
+        jobject pointObject;
+
         for (int j = 0; j < points.size(); j++) {
-            obj = (env)->NewObject(javaClass, methodID, points[j].first, points[j].second);
-            (env)->SetObjectArrayElement(objArray, number, obj);
-            (env)->DeleteLocalRef(obj);
-            number++;
+            pointObject = (env)->NewObject(pointClass, pointClassConstructor, points[j].first,
+                                           points[j].second);
+            (env)->SetObjectArrayElement(pointArray, j, pointObject);
+            (env)->DeleteLocalRef(pointObject);
         }
-        obj = (env)->NewObject(javaClass, methodID, -1, -1);
-        (env)->SetObjectArrayElement(objArray, number, obj);
-        (env)->DeleteLocalRef(obj);
-        number++;
+
+        jobject startPointOne = (env)->NewObject(pointClass, pointClassConstructor,
+                                                 shadowPaths[i].startPointOne.first,
+                                                 shadowPaths[i].startPointOne.second);
+        jobject startPointTwo = (env)->NewObject(pointClass, pointClassConstructor,
+                                                 shadowPaths[i].startPointTwo.first,
+                                                 shadowPaths[i].startPointTwo.second);
+        jobject endPointOne = (env)->NewObject(pointClass, pointClassConstructor,
+                                               shadowPaths[i].endPointOne.first,
+                                               shadowPaths[i].endPointOne.second);
+        jobject endPointTwo = (env)->NewObject(pointClass, pointClassConstructor,
+                                               shadowPaths[i].endPointTwo.first,
+                                               shadowPaths[i].endPointTwo.second);
+
+        shadowPathObject = (env)->NewObject(shadowPathClass,
+                                            shadowClassConstructor, pointArray, startPointOne,
+                                            startPointTwo, endPointOne, endPointTwo);
+
+        (env)->SetObjectArrayElement(shadowObjectArray, i, shadowPathObject);
+        (env)->DeleteLocalRef(shadowPathObject);
+        (env)->DeleteLocalRef(pointArray);
+
     }
 
-    return objArray;
+    return shadowObjectArray;
+
 }
 
 vector<pair<int, int> >
@@ -329,6 +336,39 @@ vector<pair<int, int> > getLargestComponent(set<pair<int, int> > Graph) {
     return component;
 }
 
+vector<pair<int, int> > getPolarOrder(vector<pair<int, int> > path, pair<int, int> ref) {
+    vector<pair<long double, pair<int, int> > > polarOrder;
+    polarOrder.clear();
+
+    long double angle;
+    long double H, B;
+
+    for (int i = 0; i < path.size(); i++) {
+        H = path[i].second - ref.second;
+        B = path[i].first - ref.first;
+
+        angle = atan(H / B);
+
+        polarOrder.push_back(make_pair(angle, path[i]));
+    }
+
+    vector<pair<long double, pair<int, int> > > temp;
+    temp.clear();
+
+    for (int i = 0; i < polarOrder.size(); i++) {
+        if (temp.size() == 0)
+            temp.push_back(polarOrder[i]);
+        else if (temp[temp.size() - 1].first > polarOrder[i].first)
+            temp.push_back(polarOrder[i]);
+    }
+
+    path.clear();
+    for (int i = 0; i < temp.size(); i++)
+        path.push_back(temp[i].second);
+
+    return path;
+}
+
 vector<pair<int, int> > getOuterBoundary(pair<int, int> src, set<pair<int, int> > Graph) {
     map<pair<int, int>, bool> visited;
     visited.clear();
@@ -370,37 +410,12 @@ vector<pair<int, int> > getOuterBoundary(pair<int, int> src, set<pair<int, int> 
     return outerBoundary;
 }
 
-vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int> ref) {
+vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int> ref, int what) {
     set<pair<int, int> > boundary;
-    set<pair<int, int> > notboundary;
     boundary.clear();
-    notboundary.clear();
 
     for (int i = 0; i < pts.size(); i++)
         boundary.insert(pts[i]);
-
-    int x1, y1, x2, y2;
-    for (int i = 0; i < pts.size(); i++) {
-        x1 = pts[i].first;
-        y1 = pts[i].second;
-
-        bool flag = false;
-        for (int j = -1; j < 2; j++) {
-            for (int k = -1; k < 2; k++) {
-                x2 = x1 + j;
-                y2 = y1 + k;
-
-                if (boundary.find(make_pair(x2, y2)) == boundary.end())
-                    flag = true;
-            }
-        }
-
-        if (!flag)
-            notboundary.insert(make_pair(x1, y1));
-    }
-
-    for (set<pair<int, int> >::iterator it = notboundary.begin(); it != notboundary.end(); it++)
-        boundary.erase(*it);
 
     vector<pair<long double, pair<int, int> > > polarOrder;
     polarOrder.clear();
@@ -441,19 +456,7 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
     long double area1 = getArea(path1, ref);
     long double area2 = getArea(path2, ref);
 
-    if (area1 > area2)
-        return path1;
-
-    int cnt1 = path1.size();
-
     vector<pair<int, int> > component = getLargestComponent(boundary);
-
-    int cnt2 = component.size();
-
-    long double ratio = ((long double) cnt2) / ((long double) cnt1);
-
-    if (ratio < 0.001)
-        return path1;
 
     boundary.clear();
     for (int i = 0; i < component.size(); i++)
@@ -474,37 +477,144 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
 
     path2 = getPath(tangent1, tangent2, boundary);
 
-    return path2;
+    vector<pair<int, int> > path1PolarOrder;
+    vector<pair<int, int> > path2PolarOrder;
+    path1PolarOrder.clear();
+    path2PolarOrder.clear();
+
+    path1PolarOrder = getPolarOrder(path1, ref);
+    path2PolarOrder = getPolarOrder(path2, ref);
+
+    vector<pair<int, int> > fullPath;
+    vector<pair<int, int> > fullPathPolarOrder;
+    fullPath.clear();
+    fullPathPolarOrder.clear();
+
+    for (int i = 0; i < path1.size(); i++)
+        fullPath.push_back(path1[i]);
+    for (int i = path2.size() - 1; i >= 0; i--)
+        fullPath.push_back(path2[i]);
+
+    for (int i = 0; i < path1PolarOrder.size(); i++)
+        fullPathPolarOrder.push_back(path1PolarOrder[i]);
+    for (int i = path2PolarOrder.size() - 1; i >= 0; i--)
+        fullPathPolarOrder.push_back(path2PolarOrder[i]);
+
+    bool flag = false;
+    if (area1 < area2)
+        flag = true;
+
+    if (what == 0) // Front Path
+    {
+        if (flag)
+            return path1;
+        return path2;
+    }
+    if (what == 1) // Front Polar Path
+    {
+        if (flag)
+            return path1PolarOrder;
+        return path2PolarOrder;
+    }
+    if (what == 2) // Back Path
+    {
+        if (!flag)
+            return path1;
+        return path2;
+    }
+    if (what == 3) // Back Polar Path
+    {
+        if (!flag)
+            return path1PolarOrder;
+        return path2PolarOrder;
+    }
+    if (what == 4) // Full Path
+        return fullPath;
+    if (what == 5) // Full Polar Path
+        return fullPathPolarOrder;
 }
 
-vector<pair<int, int> > getFinalPathPointsFromContour(vector<pair<int, int> > points) {
+ShadowPath
+getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int height, int angle,
+                              int shadowLength) {
 
-    pair<int, int> ref = make_pair(-1000, -1000);
+    __android_log_print(ANDROID_LOG_DEBUG, "POINTS", "size_1 : %lu", points.size());
 
-    vector<pair<int, int> > boundary = boundaryPath(points, ref);
+    pair<int, int> ref = make_pair(width / 2 - (2000 * cos(angle * PI / 180)),
+                                   height / 2 - (2000 * sin(angle * PI / 180)));
 
-    vector<pair<int, int> > boundaryTranslated = boundary;
+    vector<pair<int, int> > boundary_front_polar = boundaryPath(points, ref, 1);
+    vector<pair<int, int> > boundary_back_polar = boundaryPath(points, ref, 3);
 
-    for (int i = 0; i < boundaryTranslated.size(); i++) {
-        boundaryTranslated[i].first += 30;
-        boundaryTranslated[i].second += 30;
-    }
+    int boundary_front_polar_size = boundary_front_polar.size();
+    int boundary_back_polar_size = boundary_back_polar.size();
 
     vector<pair<int, int> > pathPoints;
 
-    for (int i = 0; i < boundary.size(); i++) {
-        pathPoints.push_back(boundary[i]);
+    for (int i = 0; i < boundary_front_polar.size(); i++) {
+        pathPoints.push_back(boundary_front_polar[i]);
     }
 
-    for (int i = 0; i < boundaryTranslated.size(); i++) {
-        pathPoints.push_back(boundaryTranslated[i]);
+    for (int i = 0; i < boundary_back_polar.size(); i++) {
+        boundary_back_polar[i].first += shadowLength * cos(angle * PI / 180);
+        boundary_back_polar[i].second += shadowLength * sin(angle * PI / 180);
     }
 
-//    for (int i = boundaryTranslated.size() - 1; i >= 0; i--) {
-//        pathPoints.push_back(boundaryTranslated[i]);
-//    }
+    for (int i = boundary_back_polar.size() - 1; i >= 0; i--) {
+        pathPoints.push_back(boundary_back_polar[i]);
+    }
 
-    return pathPoints;
+    ShadowPath shadowPath;
+
+    shadowPath.points = pathPoints;
+    shadowPath.startPointOne = boundary_front_polar[0];
+    shadowPath.startPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
+    shadowPath.endPointOne = boundary_back_polar[0];
+    shadowPath.endPointTwo = boundary_back_polar[boundary_back_polar_size - 1];
+
+    return shadowPath;
+
+}
+
+extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
+        JNIEnv *env,
+        jobject,
+        jintArray arr,
+        jint width,
+        jint height,
+        jint angle,
+        jint shadowLength) {
+
+    vector<vector<pair<int, int> > > ans;
+    ans.clear();
+
+    jint *c_array = (env)->GetIntArrayElements(arr, NULL);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 1 ");
+
+    ans = contours(c_array, width, height);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 2 ");
+
+    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3 ");
+
+    vector<ShadowPath> shadowPaths;
+
+    for (int i = 0; i < ans.size(); i++) {
+
+        __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 0);
+
+        shadowPaths.push_back(
+                getFinalPathPointsFromContour(ans[i], width, height, angle, shadowLength));
+
+        __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 1);
+    }
+
+    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 4 ");
+
+    return convertToObjectArray(env, shadowPaths);
 
 }
 
