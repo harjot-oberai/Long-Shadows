@@ -53,7 +53,8 @@ public class LongShadowsGenerator {
                         width,
                         height,
                         longShadowsImageView.getShadowAngle(),
-                        longShadowsImageView.getShadowLength());
+                        longShadowsImageView.getShadowLength(),
+                        (longShadowsImageView.isBackgroundTransparent()) ? 0 : longShadowsImageView.getBackgroundColor());
 
                 Log.d("TIME_CPP_END", "TIME_2");
 
@@ -94,7 +95,8 @@ public class LongShadowsGenerator {
                         width,
                         height,
                         longShadowsTextView.getShadowAngle(),
-                        longShadowsTextView.getShadowLength());
+                        longShadowsTextView.getShadowLength(),
+                        (longShadowsTextView.isBackgroundTransparent()) ? 0 : longShadowsTextView.getBackgroundColor());
 
                 Log.d("TIME_CPP_END", "TIME_2");
 
@@ -112,6 +114,6 @@ public class LongShadowsGenerator {
         }
     }
 
-    public native ShadowPath[] getContours(int arr[], int width, int height, float angle, int shadowLength);
+    public native ShadowPath[] getContours(int arr[], int width, int height, float angle, int shadowLength, int backgroundColor);
 
 }

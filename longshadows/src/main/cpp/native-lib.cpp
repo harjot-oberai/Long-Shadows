@@ -11,8 +11,6 @@
 #include <algorithm>
 #include <android/log.h>
 
-#define ALPHA_0 0
-
 #define PI 3.14159265
 
 using namespace std;
@@ -25,7 +23,7 @@ struct ShadowPath {
     pair<int, int> endPointTwo;
 };
 
-vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
+vector<vector<pair<int, int> > > contours(int arr[], int width, int height, int backgroundColor) {
     int mat[height + 1][width + 1];
     int id[height + 1][width + 1];
     queue<pair<int, int> > q;
@@ -47,7 +45,7 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            if (id[i][j] == 0 && mat[i][j] != ALPHA_0) {
+            if (id[i][j] == 0 && mat[i][j] != backgroundColor) {
                 cnt++;
                 temp.clear();
 
@@ -65,7 +63,7 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
                     if (x < 0 || y < 0 || x >= height || y >= width)
                         continue;
 
-                    if (mat[x][y] == ALPHA_0)
+                    if (mat[x][y] == backgroundColor)
                         continue;
 
                     if (id[x][y] != 0) {
@@ -74,7 +72,7 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
                     }
 
                     assert(id[x][y] == 0);
-                    assert(mat[x][y] != ALPHA_0);
+                    assert(mat[x][y] != backgroundColor);
 
                     id[x][y] = cnt;
 
@@ -90,7 +88,7 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height) {
                                 break;
                             }
 
-                            if (mat[x1][y1] == ALPHA_0) {
+                            if (mat[x1][y1] == backgroundColor) {
                                 flag = true;
                                 break;
                             }
@@ -585,7 +583,8 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
         jint width,
         jint height,
         jfloat angle,
-        jint shadowLength) {
+        jint shadowLength,
+        jint backgroundColor) {
 
     vector<vector<pair<int, int> > > ans;
     ans.clear();
@@ -594,7 +593,7 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
 
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 1 ");
 
-    ans = contours(c_array, width, height);
+    ans = contours(c_array, width, height, backgroundColor);
 
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 2 ");
 

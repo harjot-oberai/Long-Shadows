@@ -20,4 +20,8 @@ public class Constants {
 
     public static final int DEFAULT_SHADOW_BLUR_RADIUS = 1;
 
+    public static final boolean DEFAULT_BACKGROUND_TRANSPARENT = true;
+
+    public static final int DEFAULT_BACKGROUND_COLOR = Color.TRANSPARENT;
+
 }

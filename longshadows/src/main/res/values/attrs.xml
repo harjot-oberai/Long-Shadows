@@ -7,6 +7,8 @@
     <attr name="shadow_length" format="float" />
     <attr name="shadow_blur_enabled" format="boolean" />
     <attr name="shadow_blur_radius" format="float" />
+    <attr name="background_transparent" format="boolean" />
+    <attr name="background_color" format="color" />
 
     <declare-styleable name="LongShadowsImageView">
         <attr name="shadow_angle" />
@@ -15,6 +17,8 @@
         <attr name="shadow_length" />
         <attr name="shadow_blur_enabled" />
         <attr name="shadow_blur_radius" />
+        <attr name="background_transparent" />
+        <attr name="background_color" />
     </declare-styleable>
 
     <declare-styleable name="LongShadowsTextView">
@@ -24,6 +28,8 @@
         <attr name="shadow_length" />
         <attr name="shadow_blur_enabled" />
         <attr name="shadow_blur_radius" />
+        <attr name="background_transparent" />
+        <attr name="background_color" />
     </declare-styleable>
 
 </resources>

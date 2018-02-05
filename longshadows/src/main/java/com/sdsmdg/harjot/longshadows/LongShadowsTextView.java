@@ -34,6 +34,8 @@ public class LongShadowsTextView extends TextView {
     private int shadowLength = Constants.DEFAULT_SHADOW_LENGTH;
     private boolean shadowBlurEnabled = Constants.DEFAULT_SHADOW_BLUR_ENABLED;
     private float shadowBlurRadius = Constants.DEFAULT_SHADOW_BLUR_RADIUS;
+    private boolean backgroundTransparent = Constants.DEFAULT_BACKGROUND_TRANSPARENT;
+    private int backgroundColor = Constants.DEFAULT_BACKGROUND_COLOR;
 
     public LongShadowsTextView(Context context) {
         super(context);
@@ -71,6 +73,10 @@ public class LongShadowsTextView extends TextView {
                 shadowBlurEnabled = a.getBoolean(attr, Constants.DEFAULT_SHADOW_BLUR_ENABLED);
             } else if (attr == R.styleable.LongShadowsTextView_shadow_blur_radius) {
                 shadowBlurRadius = a.getFloat(attr, Constants.DEFAULT_SHADOW_BLUR_RADIUS);
+            } else if (attr == R.styleable.LongShadowsTextView_background_transparent) {
+                backgroundTransparent = a.getBoolean(attr, Constants.DEFAULT_BACKGROUND_TRANSPARENT);
+            } else if (attr == R.styleable.LongShadowsTextView_background_color) {
+                backgroundColor = a.getColor(attr, Constants.DEFAULT_BACKGROUND_COLOR);
             }
         }
         a.recycle();
@@ -163,5 +169,22 @@ public class LongShadowsTextView extends TextView {
 
     public void setShadowBlurRadius(float shadowBlurRadius) {
         this.shadowBlurRadius = shadowBlurRadius;
+    }
+
+    public boolean isBackgroundTransparent() {
+        return backgroundTransparent;
+    }
+
+    public void setBackgroundTransparent(boolean backgroundTransparent) {
+        this.backgroundTransparent = backgroundTransparent;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 }
