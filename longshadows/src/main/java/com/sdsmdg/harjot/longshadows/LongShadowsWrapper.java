@@ -10,9 +10,6 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     LongShadowsGenerator longShadowsGenerator;
 
-    private int angle;
-    private int shadowLength;
-
     public LongShadowsWrapper(Context context) {
         super(context);
         init();
@@ -30,9 +27,6 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     void init() {
 
-        angle = 30;
-        shadowLength = 700;
-
         setClipChildren(false);
         setClipToPadding(false);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
@@ -42,7 +36,7 @@ public class LongShadowsWrapper extends RelativeLayout {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (longShadowsGenerator == null) {
-            longShadowsGenerator = new LongShadowsGenerator(this, angle, shadowLength);
+            longShadowsGenerator = new LongShadowsGenerator(this);
         }
         longShadowsGenerator.generate();
     }

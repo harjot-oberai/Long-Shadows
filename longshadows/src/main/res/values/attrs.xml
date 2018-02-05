@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="shadow_angle" format="float" />
+    <attr name="shadow_startColor" format="color" />
+    <attr name="shadow_endColor" format="color" />
+    <attr name="shadow_length" format="float" />
+    <attr name="shadow_blur_enabled" format="boolean" />
+    <attr name="shadow_blur_radius" format="float" />
+
+    <declare-styleable name="LongShadowsImageView">
+        <attr name="shadow_angle" />
+        <attr name="shadow_startColor" />
+        <attr name="shadow_endColor" />
+        <attr name="shadow_length" />
+        <attr name="shadow_blur_enabled" />
+        <attr name="shadow_blur_radius" />
+    </declare-styleable>
+
+    <declare-styleable name="LongShadowsTextView">
+        <attr name="shadow_angle" />
+        <attr name="shadow_startColor" />
+        <attr name="shadow_endColor" />
+        <attr name="shadow_length" />
+        <attr name="shadow_blur_enabled" />
+        <attr name="shadow_blur_radius" />
+    </declare-styleable>
+
+</resources>

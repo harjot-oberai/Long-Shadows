@@ -535,7 +535,7 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
 }
 
 ShadowPath
-getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int height, int angle,
+getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int height, float angle,
                               int shadowLength) {
 
     __android_log_print(ANDROID_LOG_DEBUG, "POINTS", "size_1 : %lu", points.size());
@@ -584,7 +584,7 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
         jintArray arr,
         jint width,
         jint height,
-        jint angle,
+        jfloat angle,
         jint shadowLength) {
 
     vector<vector<pair<int, int> > > ans;
