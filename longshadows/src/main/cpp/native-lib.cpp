@@ -13,6 +13,8 @@
 
 #define PI 3.14159265
 
+#define CORRECTIVE_OFFSET 3
+
 using namespace std;
 
 struct ShadowPath {
@@ -568,6 +570,13 @@ getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int hei
 
     int boundary_front_polar_size = boundary_front_polar.size();
 
+
+    // Translate points away from light to avoid shadow out of the contour towards light source
+    for (int i = 0; i < boundary_front_polar_size; i++) {
+        boundary_front_polar[i].first += CORRECTIVE_OFFSET * cos(angle * PI / 180);
+        boundary_front_polar[i].second += CORRECTIVE_OFFSET * sin(angle * PI / 180);
+    }
+
     vector<pair<int, int> > pathPoints;
 
     for (int i = 0; i < boundary_front_polar.size(); i++) {
@@ -595,7 +604,8 @@ getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int hei
     if ((closestPointToLight.first == boundary_front_polar[0].first &&
          closestPointToLight.second == boundary_front_polar[0].second) ||
         (closestPointToLight.first == boundary_front_polar[boundary_front_polar_size - 1].first &&
-         closestPointToLight.second == boundary_front_polar[boundary_front_polar_size - 1].second)) {
+         closestPointToLight.second ==
+         boundary_front_polar[boundary_front_polar_size - 1].second)) {
 
         shadowPath.startPointOne = boundary_front_polar[0];
         shadowPath.startPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
