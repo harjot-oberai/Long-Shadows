@@ -34,6 +34,7 @@ public class LongShadowsImageView extends ImageView {
     private int shadowLength = Constants.DEFAULT_SHADOW_LENGTH;
     private boolean shadowBlurEnabled = Constants.DEFAULT_SHADOW_BLUR_ENABLED;
     private float shadowBlurRadius = Constants.DEFAULT_SHADOW_BLUR_RADIUS;
+    private int shadowAlpha = Constants.DEFAULT_SHADOW_ALPHA;
     private boolean backgroundTransparent = Constants.DEFAULT_BACKGROUND_TRANSPARENT;
     private int backgroundColor = Constants.DEFAULT_BACKGROUND_COLOR;
 
@@ -57,25 +58,27 @@ public class LongShadowsImageView extends ImageView {
     }
 
     void initXMLAttrs(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LongShadowsTextView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LongShadowsImageView);
         final int N = a.getIndexCount();
         for (int i = 0; i < N; ++i) {
-            int attr = a.getIndex(i);
-            if (attr == R.styleable.LongShadowsTextView_shadow_angle) {
+            int attr = a.getIndex(i);                   
+            if (attr == R.styleable.LongShadowsImageView_shadow_angle) {
                 shadowAngle = a.getFloat(attr, Constants.DEFAULT_SHADOW_ANGLE);
             } else if (attr == R.styleable.LongShadowsImageView_shadow_startColor) {
                 shadowStartColor = a.getColor(attr, Constants.DEFAULT_SHADOW_START_COLOR);
             } else if (attr == R.styleable.LongShadowsImageView_shadow_endColor) {
                 shadowEndColor = a.getColor(attr, Constants.DEFAULT_SHADOW_END_COLOR);
-            } else if (attr == R.styleable.LongShadowsTextView_shadow_length) {
+            } else if (attr == R.styleable.LongShadowsImageView_shadow_length) {
                 shadowLength = a.getInt(attr, Constants.DEFAULT_SHADOW_LENGTH);
-            } else if (attr == R.styleable.LongShadowsTextView_shadow_blur_enabled) {
+            } else if (attr == R.styleable.LongShadowsImageView_shadow_blur_enabled) {
                 shadowBlurEnabled = a.getBoolean(attr, Constants.DEFAULT_SHADOW_BLUR_ENABLED);
-            } else if (attr == R.styleable.LongShadowsTextView_shadow_blur_radius) {
+            } else if (attr == R.styleable.LongShadowsImageView_shadow_blur_radius) {
                 shadowBlurRadius = a.getFloat(attr, Constants.DEFAULT_SHADOW_BLUR_RADIUS);
-            } else if (attr == R.styleable.LongShadowsTextView_background_transparent) {
+            } else if (attr == R.styleable.LongShadowsImageView_shadow_alpha) {
+                shadowAlpha = a.getInt(attr, Constants.DEFAULT_SHADOW_ALPHA);
+            } else if (attr == R.styleable.LongShadowsImageView_background_transparent) {
                 backgroundTransparent = a.getBoolean(attr, Constants.DEFAULT_BACKGROUND_TRANSPARENT);
-            } else if (attr == R.styleable.LongShadowsTextView_background_color) {
+            } else if (attr == R.styleable.LongShadowsImageView_background_color) {
                 backgroundColor = a.getColor(attr, Constants.DEFAULT_BACKGROUND_COLOR);
             }
         }
@@ -88,6 +91,7 @@ public class LongShadowsImageView extends ImageView {
         shadowPaint = new Paint();
         shadowPaint.setAntiAlias(true);
         shadowPaint.setStyle(Paint.Style.FILL);
+        shadowPaint.setAlpha(shadowAlpha);
         if (shadowBlurEnabled) {
             shadowPaint.setMaskFilter(new BlurMaskFilter(shadowBlurRadius, BlurMaskFilter.Blur.NORMAL));
         }

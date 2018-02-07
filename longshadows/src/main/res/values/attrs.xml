@@ -5,6 +5,7 @@
     <attr name="shadow_startColor" format="color" />
     <attr name="shadow_endColor" format="color" />
     <attr name="shadow_length" format="float" />
+    <attr name="shadow_alpha" format="integer" />
     <attr name="shadow_blur_enabled" format="boolean" />
     <attr name="shadow_blur_radius" format="float" />
     <attr name="background_transparent" format="boolean" />
@@ -17,6 +18,7 @@
         <attr name="shadow_length" />
         <attr name="shadow_blur_enabled" />
         <attr name="shadow_blur_radius" />
+        <attr name="shadow_alpha" />
         <attr name="background_transparent" />
         <attr name="background_color" />
     </declare-styleable>
@@ -28,6 +30,7 @@
         <attr name="shadow_length" />
         <attr name="shadow_blur_enabled" />
         <attr name="shadow_blur_radius" />
+        <attr name="shadow_alpha" />
         <attr name="background_transparent" />
         <attr name="background_color" />
     </declare-styleable>
