@@ -532,6 +532,29 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
         return fullPathPolarOrder;
 }
 
+double getDistance(pair<int, int> pointOne, pair<int, int> pointTwo) {
+    return (pow((pointOne.first - pointTwo.first), 2) +
+            pow((pointOne.second - pointTwo.second), 2));
+}
+
+pair<int, int> getClosestPointToLight(vector<pair<int, int> > points, pair<int, int> ref) {
+
+    pair<int, int> closestPoint;
+
+    double minDistance = INT_MAX;
+
+    for (int i = 0; i < points.size(); i++) {
+        double distance = getDistance(ref, points[i]);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestPoint = points[i];
+        }
+    }
+
+    return closestPoint;
+
+}
+
 ShadowPath
 getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int height, float angle,
                               int shadowLength) {
@@ -542,10 +565,8 @@ getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int hei
                                    height / 2 - (2000 * sin(angle * PI / 180)));
 
     vector<pair<int, int> > boundary_front_polar = boundaryPath(points, ref, 1);
-    vector<pair<int, int> > boundary_back_polar = boundaryPath(points, ref, 3);
 
     int boundary_front_polar_size = boundary_front_polar.size();
-    int boundary_back_polar_size = boundary_back_polar.size();
 
     vector<pair<int, int> > pathPoints;
 
@@ -553,22 +574,39 @@ getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int hei
         pathPoints.push_back(boundary_front_polar[i]);
     }
 
-    for (int i = 0; i < boundary_back_polar.size(); i++) {
-        boundary_back_polar[i].first += shadowLength * cos(angle * PI / 180);
-        boundary_back_polar[i].second += shadowLength * sin(angle * PI / 180);
-    }
+    pair<int, int> translatedPointOne = boundary_front_polar[0];
+    pair<int, int> translatedPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
 
-    for (int i = boundary_back_polar.size() - 1; i >= 0; i--) {
-        pathPoints.push_back(boundary_back_polar[i]);
-    }
+    translatedPointOne.first += shadowLength * cos(angle * PI / 180);
+    translatedPointOne.second += shadowLength * sin(angle * PI / 180);
+
+    translatedPointTwo.first += shadowLength * cos(angle * PI / 180);
+    translatedPointTwo.second += shadowLength * sin(angle * PI / 180);
+
+    pathPoints.push_back(translatedPointTwo);
+    pathPoints.push_back(translatedPointOne);
 
     ShadowPath shadowPath;
 
     shadowPath.points = pathPoints;
-    shadowPath.startPointOne = boundary_front_polar[0];
-    shadowPath.startPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
-    shadowPath.endPointOne = boundary_back_polar[0];
-    shadowPath.endPointTwo = boundary_back_polar[boundary_back_polar_size - 1];
+
+    pair<int, int> closestPointToLight = getClosestPointToLight(boundary_front_polar, ref);
+
+    if ((closestPointToLight.first == boundary_front_polar[0].first &&
+         closestPointToLight.second == boundary_front_polar[0].second) ||
+        (closestPointToLight.first == boundary_front_polar[boundary_front_polar_size - 1].first &&
+         closestPointToLight.second == boundary_front_polar[boundary_front_polar_size - 1].second)) {
+
+        shadowPath.startPointOne = boundary_front_polar[0];
+        shadowPath.startPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
+
+    } else {
+        shadowPath.startPointOne = closestPointToLight;
+        shadowPath.startPointTwo = closestPointToLight;
+    }
+
+    shadowPath.endPointOne = translatedPointOne;
+    shadowPath.endPointTwo = translatedPointTwo;
 
     return shadowPath;
 
