@@ -1,16 +1,24 @@
 package com.sdsmdg.harjot.longshadows.shadowutils;
 
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sdsmdg.harjot.longshadows.Constants;
 import com.sdsmdg.harjot.longshadows.LongShadowsImageView;
 import com.sdsmdg.harjot.longshadows.LongShadowsTextView;
 import com.sdsmdg.harjot.longshadows.models.ShadowPath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by Harjot on 27-Jan-18.
@@ -18,14 +26,32 @@ import java.util.Arrays;
 
 public class LongShadowsGenerator {
 
+    private final Object TASKS_LOCK = new Object();
+
+    private List<Future<?>> tasksInProgress = new ArrayList<>();
+    private ExecutorService workerPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private Handler uiThreadHandler = new Handler(Looper.getMainLooper());
+
+    private SparseArray<ShadowPath[]> viewShadowPaths;
+
     private ViewGroup viewGroup;
+
+    private boolean shouldShowWhenAllReady = Constants.DEFAULT_SHOW_WHEN_ALL_READY;
+    private boolean shouldCalculateAsync = Constants.DEFAULT_CALCULATE_ASYNC;
+    private boolean shouldAnimateShadow = Constants.DEFAULT_ANIMATE_SHADOW;
+
+    private int animationDuration = Constants.DEFAULT_ANIMATION_TIME;
 
     static {
         System.loadLibrary("native-lib");
     }
 
-    public LongShadowsGenerator(ViewGroup viewGroup) {
+    public LongShadowsGenerator(ViewGroup viewGroup, boolean shouldShowWhenAllReady, boolean shouldCalculateAsync, boolean shouldAnimateShadow, int animationDuration) {
         this.viewGroup = viewGroup;
+        this.shouldShowWhenAllReady = shouldShowWhenAllReady;
+        this.shouldCalculateAsync = shouldCalculateAsync;
+        this.shouldAnimateShadow = shouldAnimateShadow;
+        this.animationDuration = animationDuration;
     }
 
     public void generate() {

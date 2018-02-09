@@ -26,4 +26,12 @@ public class Constants {
 
     public static final int DEFAULT_BACKGROUND_COLOR = Color.TRANSPARENT;
 
+    public static final boolean DEFAULT_SHOW_WHEN_ALL_READY = true;
+
+    public static final boolean DEFAULT_CALCULATE_ASYNC = true;
+
+    public static final boolean DEFAULT_ANIMATE_SHADOW = true;
+
+    public static final int DEFAULT_ANIMATION_TIME = 300;
+
 }

@@ -10,6 +10,12 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     LongShadowsGenerator longShadowsGenerator;
 
+    boolean shouldShowWhenAllReady = Constants.DEFAULT_SHOW_WHEN_ALL_READY;
+    boolean shouldCalculateAsync = Constants.DEFAULT_CALCULATE_ASYNC;
+    boolean shouldAnimateShadow = Constants.DEFAULT_ANIMATE_SHADOW;
+
+    int animationDuration = Constants.DEFAULT_ANIMATION_TIME;
+
     public LongShadowsWrapper(Context context) {
         super(context);
         init();
@@ -36,7 +42,7 @@ public class LongShadowsWrapper extends RelativeLayout {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (longShadowsGenerator == null) {
-            longShadowsGenerator = new LongShadowsGenerator(this);
+            longShadowsGenerator = new LongShadowsGenerator(this, shouldShowWhenAllReady, shouldCalculateAsync, shouldAnimateShadow, animationDuration);
         }
         longShadowsGenerator.generate();
     }

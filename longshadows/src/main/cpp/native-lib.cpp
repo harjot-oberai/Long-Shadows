@@ -11,9 +11,11 @@
 #include <algorithm>
 #include <android/log.h>
 
-#define PI 3.14159265
+#define PI 3.1415926535897932384
 
 #define CORRECTIVE_OFFSET 3
+
+#define REFERENCE_POINT_OFFSET 2000
 
 using namespace std;
 
@@ -248,18 +250,93 @@ long double crossProduct(pair<int, int> p1, pair<int, int> p2, pair<int, int> p3
     return ans;
 }
 
+vector<pair<int, int> > getPolarOrder(vector<pair<int, int> > path, pair<int, int> ref) {
+    vector<pair<pair<long double, long double>, pair<int, int> > > polarOrder;
+    polarOrder.clear();
+
+    long double angle;
+    long double dist;
+    long double H, B;
+
+    int minx = 1000000009, maxx = -1000000009;
+
+    for (int i = 0; i < path.size(); i++) {
+        minx = min(minx, path[i].first);
+        maxx = max(maxx, path[i].first);
+    }
+
+    // LOG
+
+    bool flag = false;
+
+    if (ref.first >= minx && ref.first <= maxx)
+        flag = true;
+
+    for (int i = 0; i < path.size(); i++) {
+        H = path[i].second - ref.second;
+        B = path[i].first - ref.first;
+
+        dist = H * H + B * B;
+
+        angle = atan(H / B);
+
+        if (angle > 0.0 && flag)
+            angle -= PI;
+
+        polarOrder.push_back(make_pair(make_pair(angle, dist), path[i]));
+    }
+
+    vector<pair<pair<long double, long double>, pair<int, int> > > temp;
+    temp.clear();
+
+    for (int i = 0; i < polarOrder.size(); i++) {
+        if (temp.size() == 0)
+            temp.push_back(polarOrder[i]);
+        else if (temp[temp.size() - 1].first.first > polarOrder[i].first.first)
+            temp.push_back(polarOrder[i]);
+        while (temp.size() > 0 && temp[temp.size() - 1].first.second > polarOrder[i].first.second &&
+               temp[temp.size() - 1].first.first < polarOrder[i].first.first)
+            temp.pop_back();
+    }
+
+    path.clear();
+    for (int i = 0; i < temp.size(); i++)
+        path.push_back(temp[i].second);
+
+    return path;
+}
+
 long double getArea(vector<pair<int, int> > path, pair<int, int> ref) {
-    vector<pair<long double, pair<int, int> > > polarOrder;
+
+    path = getPolarOrder(path, ref);
+    /*vector<pair<long double, pair<int, int> > > polarOrder;
     polarOrder.clear();
 
     long double angle;
     long double H, B;
+
+    int minx = 1000000009, maxx = -1000000009;
+
+    for (int i = 0; i < path.size(); i++) {
+        minx = min(minx, path[i].first);
+        maxx = max(maxx, path[i].first);
+    }
+
+    // LOG
+
+    bool flag = false;
+
+    if (ref.first >= minx && ref.first <= maxx)
+        flag = true;
 
     for (int i = 0; i < path.size(); i++) {
         H = path[i].second - ref.second;
         B = path[i].first - ref.first;
 
         angle = atan(H / B);
+
+        if (angle > 0.0 && flag)
+            angle -= PI;
 
         polarOrder.push_back(make_pair(angle, path[i]));
     }
@@ -268,7 +345,7 @@ long double getArea(vector<pair<int, int> > path, pair<int, int> ref) {
 
     path.clear();
     for (int i = 0; i < polarOrder.size(); i++)
-        path.push_back(polarOrder[i].second);
+        path.push_back(polarOrder[i].second);*/
 
     long double area = 0.0;
     for (int i = 1; i < path.size(); i++)
@@ -276,6 +353,9 @@ long double getArea(vector<pair<int, int> > path, pair<int, int> ref) {
 
     area = area / 2.0;
     area = abs(area);
+
+    __android_log_print(ANDROID_LOG_DEBUG, "AREA_DEBUG", "AREA %Lf Point %d %d", area,
+                        path[path.size() / 2].first, path[path.size() / 2].second);
 
     return area;
 }
@@ -336,39 +416,6 @@ vector<pair<int, int> > getLargestComponent(set<pair<int, int> > Graph) {
     return component;
 }
 
-vector<pair<int, int> > getPolarOrder(vector<pair<int, int> > path, pair<int, int> ref) {
-    vector<pair<long double, pair<int, int> > > polarOrder;
-    polarOrder.clear();
-
-    long double angle;
-    long double H, B;
-
-    for (int i = 0; i < path.size(); i++) {
-        H = path[i].second - ref.second;
-        B = path[i].first - ref.first;
-
-        angle = atan(H / B);
-
-        polarOrder.push_back(make_pair(angle, path[i]));
-    }
-
-    vector<pair<long double, pair<int, int> > > temp;
-    temp.clear();
-
-    for (int i = 0; i < polarOrder.size(); i++) {
-        if (temp.size() == 0)
-            temp.push_back(polarOrder[i]);
-        else if (temp[temp.size() - 1].first > polarOrder[i].first)
-            temp.push_back(polarOrder[i]);
-    }
-
-    path.clear();
-    for (int i = 0; i < temp.size(); i++)
-        path.push_back(temp[i].second);
-
-    return path;
-}
-
 vector<pair<int, int> > getOuterBoundary(pair<int, int> src, set<pair<int, int> > Graph) {
     map<pair<int, int>, bool> visited;
     visited.clear();
@@ -420,6 +467,20 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
     vector<pair<long double, pair<int, int> > > polarOrder;
     polarOrder.clear();
 
+    int minx = 1000000009, maxx = -1000000009;
+
+    for (set<pair<int, int> >::iterator it = boundary.begin(); it != boundary.end(); it++) {
+        minx = min(minx, it->first);
+        maxx = max(maxx, it->first);
+    }
+
+    // LOG
+
+    bool flag1 = false;
+
+    if (ref.first >= minx && ref.first <= maxx)
+        flag1 = true;
+
     long double angle;
     long double H, B;
 
@@ -427,6 +488,10 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
         H = (it->second) - ref.second;
         B = (it->first) - ref.first;
         angle = atan(H / B);
+
+        if (angle > 0.0 && flag1)
+            angle -= PI;
+
         polarOrder.push_back(make_pair(angle, *it));
     }
 
@@ -453,8 +518,6 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
     for (set<pair<int, int> >::iterator it = boundary.begin(); it != boundary.end(); it++)
         path2.push_back(*it);
 
-    long double area1 = getArea(path1, ref);
-    long double area2 = getArea(path2, ref);
 
     vector<pair<int, int> > component = getLargestComponent(boundary);
 
@@ -466,7 +529,12 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
     for (set<pair<int, int> >::iterator it = boundary.begin(); it != boundary.end(); it++) {
         H = (it->second) - ref.second;
         B = (it->first) - ref.first;
+
         angle = atan(H / B);
+
+        if (angle > 0.0 && flag1)
+            angle -= PI;
+
         polarOrder.push_back(make_pair(angle, *it));
     }
 
@@ -476,6 +544,9 @@ vector<pair<int, int> > boundaryPath(vector<pair<int, int> > pts, pair<int, int>
     tangent2 = polarOrder[polarOrder.size() - 1].second;
 
     path2 = getPath(tangent1, tangent2, boundary);
+
+    long double area1 = getArea(path1, ref);
+    long double area2 = getArea(path2, ref);
 
     vector<pair<int, int> > path1PolarOrder;
     vector<pair<int, int> > path2PolarOrder;
@@ -559,12 +630,9 @@ pair<int, int> getClosestPointToLight(vector<pair<int, int> > points, pair<int, 
 
 ShadowPath
 getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int height, float angle,
-                              int shadowLength) {
+                              int shadowLength, pair<int, int> ref) {
 
     __android_log_print(ANDROID_LOG_DEBUG, "POINTS", "size_1 : %lu", points.size());
-
-    pair<int, int> ref = make_pair(width / 2 - (2000 * cos(angle * PI / 180)),
-                                   height / 2 - (2000 * sin(angle * PI / 180)));
 
     vector<pair<int, int> > boundary_front_polar = boundaryPath(points, ref, 1);
 
@@ -622,6 +690,23 @@ getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int hei
 
 }
 
+pair<int, int> getReferencePointFromContour(vector<pair<int, int> > contour, float angle) {
+
+    int x = 0, y = 0;
+
+    for (int i = 0; i < contour.size(); i++) {
+        x += contour[i].first;
+        y += contour[i].second;
+    }
+
+    x = (int) (x / contour.size());
+    y = (int) (y / contour.size());
+
+    return make_pair(x - (REFERENCE_POINT_OFFSET * cos(angle * PI / 180)),
+                     y - (REFERENCE_POINT_OFFSET * sin(angle * PI / 180)));
+
+}
+
 extern "C"
 JNIEXPORT jobjectArray JNICALL
 Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
@@ -654,7 +739,8 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
         __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 0);
 
         shadowPaths.push_back(
-                getFinalPathPointsFromContour(ans[i], width, height, angle, shadowLength));
+                getFinalPathPointsFromContour(ans[i], width, height, angle, shadowLength,
+                                              getReferencePointFromContour(ans[i], angle)));
 
         __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 1);
     }
