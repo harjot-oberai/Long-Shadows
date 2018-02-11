@@ -35,4 +35,11 @@
         <attr name="background_color" />
     </declare-styleable>
 
+    <declare-styleable name="LongShadowsWrapper">
+        <attr name="calculateAsync" format="boolean" />
+        <attr name="showWhenAllReady" format="boolean" />
+        <attr name="animateShadow" format="boolean" />
+        <attr name="animationDuration" format="integer" />
+    </declare-styleable>
+
 </resources>

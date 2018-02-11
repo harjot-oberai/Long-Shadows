@@ -34,4 +34,6 @@ public class Constants {
 
     public static final int DEFAULT_ANIMATION_TIME = 300;
 
+    public static final int POS_UPDATE_ALL = -1;
+
 }
