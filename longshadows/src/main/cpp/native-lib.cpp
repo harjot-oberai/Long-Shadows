@@ -9,6 +9,7 @@
 #include <iostream>
 #include <assert.h>
 #include <algorithm>
+#include <malloc.h>
 #include <android/log.h>
 
 #define PI 3.1415926535897932384
@@ -27,9 +28,22 @@ struct ShadowPath {
     pair<int, int> endPointTwo;
 };
 
-vector<vector<pair<int, int> > > contours(int arr[], int width, int height, int backgroundColor) {
-    int mat[height + 1][width + 1];
-    int id[height + 1][width + 1];
+vector<vector<pair<int, int> > >
+contours(JNIEnv *env, int arr[], int width, int height, int backgroundColor) {
+//    int mat[height + 1][width + 1];
+//    int id[height + 1][width + 1];
+
+    int r = height + 1;
+    int c = width + 1;
+
+    int **mat = (int **) malloc(r * sizeof(int *));
+    for (int i = 0; i < r; i++)
+        mat[i] = (int *) malloc(c * sizeof(int));
+
+    int **id = (int **) malloc(r * sizeof(int *));
+    for (int i = 0; i < r; i++)
+        id[i] = (int *) malloc(c * sizeof(int));
+
     queue<pair<int, int> > q;
 
     vector<vector<pair<int, int> > > ans;
@@ -119,6 +133,9 @@ vector<vector<pair<int, int> > > contours(int arr[], int width, int height, int 
             }
         }
     }
+
+    free(mat);
+    free(id);
 
     return ans;
 }
@@ -726,7 +743,7 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
 
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 1 ");
 
-    ans = contours(c_array, width, height, backgroundColor);
+    ans = contours(env, c_array, width, height, backgroundColor);
 
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 2 ");
 
