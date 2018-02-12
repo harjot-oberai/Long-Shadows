@@ -4,7 +4,7 @@
     <attr name="shadow_angle" format="float" />
     <attr name="shadow_startColor" format="color" />
     <attr name="shadow_endColor" format="color" />
-    <attr name="shadow_length" format="float" />
+    <attr name="shadow_length" format="integer" />
     <attr name="shadow_alpha" format="integer" />
     <attr name="shadow_blur_enabled" format="boolean" />
     <attr name="shadow_blur_radius" format="float" />
