@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -38,6 +39,8 @@ public class LongShadowsImageView extends ImageView {
     private boolean backgroundTransparent = Constants.DEFAULT_BACKGROUND_TRANSPARENT;
     private int backgroundColor = Constants.DEFAULT_BACKGROUND_COLOR;
 
+    private boolean highQuality = true;
+
     public LongShadowsImageView(Context context) {
         super(context);
         this.context = context;
@@ -61,7 +64,7 @@ public class LongShadowsImageView extends ImageView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LongShadowsImageView);
         final int N = a.getIndexCount();
         for (int i = 0; i < N; ++i) {
-            int attr = a.getIndex(i);                   
+            int attr = a.getIndex(i);
             if (attr == R.styleable.LongShadowsImageView_shadow_angle) {
                 shadowAngle = a.getFloat(attr, Constants.DEFAULT_SHADOW_ANGLE);
             } else if (attr == R.styleable.LongShadowsImageView_shadow_startColor) {
@@ -90,7 +93,12 @@ public class LongShadowsImageView extends ImageView {
 
         shadowPaint = new Paint();
         shadowPaint.setAntiAlias(true);
-        shadowPaint.setStyle(Paint.Style.FILL);
+        if (!highQuality) {
+            shadowPaint.setStyle(Paint.Style.FILL);
+        } else {
+            shadowPaint.setStyle(Paint.Style.STROKE);
+            shadowPaint.setStrokeWidth(2);
+        }
         shadowPaint.setAlpha(shadowAlpha);
         if (shadowBlurEnabled) {
             shadowPaint.setMaskFilter(new BlurMaskFilter(shadowBlurRadius, BlurMaskFilter.Blur.NORMAL));
@@ -103,8 +111,18 @@ public class LongShadowsImageView extends ImageView {
         Log.d("TIME", "RENDER_START");
         if (shadowPaths != null && shadowPaths.size() > 0) {
             for (ShadowPath shadowPath : shadowPaths) {
-                shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
-                canvas.drawPath(shadowPath.getPath(), shadowPaint);
+                if (!highQuality) {
+                    shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
+                    canvas.drawPath(shadowPath.getPath(), shadowPaint);
+                } else {
+                    Path path = new Path(shadowPath.getPath());
+                    shadowPaint.setColor(shadowStartColor);
+                    for (int i = 0; i < shadowLength; i++) {
+                        shadowPaint.setAlpha((int) (255 * ((float) (shadowLength - i) / (float) shadowLength)));
+                        canvas.drawPath(path, shadowPaint);
+                        path.offset((float) Math.cos(shadowAngle), (float) Math.sin(shadowAngle));
+                    }
+                }
             }
         }
         Log.d("TIME", "RENDER_FINISH");
@@ -192,4 +210,11 @@ public class LongShadowsImageView extends ImageView {
         this.backgroundColor = backgroundColor;
     }
 
+    public boolean isHighQuality() {
+        return highQuality;
+    }
+
+    public void setHighQuality(boolean highQuality) {
+        this.highQuality = highQuality;
+    }
 }

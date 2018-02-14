@@ -63,7 +63,8 @@ public class ShadowPath {
         this.endPointTwo = endPointTwo;
     }
 
-    public void constructPath() {
+    public void constructPath(boolean highQuality) {
+
         if (path == null) {
             path = new Path();
         } else if (isPathDirty) {
@@ -72,13 +73,24 @@ public class ShadowPath {
             return;
         }
 
-        if (points.length > 0) {
-            path.moveTo(points[0].getX(), points[0].getY());
-            for (int i = 1; i < points.length; i++) {
-                path.lineTo(points[i].getX(), points[i].getY());
+        if (!highQuality) {
+            if (points.length > 0) {
+                path.moveTo(points[0].getX(), points[0].getY());
+                for (int i = 1; i < points.length; i++) {
+                    path.lineTo(points[i].getX(), points[i].getY());
+                }
+                path.close();
             }
-            path.close();
+        } else {
+            if (points.length > 0) {
+                path.moveTo(points[0].getX(), points[0].getY());
+                for (int i = 1; i < points.length; i++) {
+                    path.lineTo(points[i].getX(), points[i].getY());
+                }
+            }
         }
+
+        isPathDirty = false;
 
     }
 

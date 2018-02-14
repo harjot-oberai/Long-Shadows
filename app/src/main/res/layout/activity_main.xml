@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sdsmdg.harjot.longshadows.LongShadowsWrapper xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EE335E"
+    android:background="#0d3d53"
     tools:context="com.sdsmdg.harjot.longshadowsandroid.MainActivity">
 
-    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
-    <!--android:id="@+id/image_view_1"-->
-    <!--android:layout_width="200dp"-->
-    <!--android:layout_height="200dp"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:padding="10dp"-->
-    <!--android:src="@drawable/apple" />-->
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+        android:id="@+id/image_view_1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:src="@drawable/apple"
+        app:shadow_startColor="#FF0000" />
 
     <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
     <!--android:id="@+id/image_view_2"-->
@@ -29,9 +32,12 @@
         android:layout_height="300dp"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="Hello"
-        android:textColor="#FFFFFF"
-        android:textSize="100sp" />
+        android:text="DESIGN"
+        android:textColor="#0d3d53"
+        android:textSize="70sp"
+        android:textStyle="italic"
+        app:shadow_blur_enabled="true"
+        app:shadow_startColor="#FFFFFF" />
 
     <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
     <!--android:id="@+id/image_view_3"-->

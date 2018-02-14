@@ -198,10 +198,11 @@ public class LongShadowsGenerator {
                     height,
                     longShadowsImageView.getShadowAngle(),
                     longShadowsImageView.getShadowLength(),
+                    longShadowsImageView.isHighQuality(),
                     (longShadowsImageView.isBackgroundTransparent()) ? 0 : longShadowsImageView.getBackgroundColor());
 
             for (ShadowPath path : paths) {
-                path.constructPath();
+                path.constructPath(longShadowsImageView.isHighQuality());
             }
 
             return paths;
@@ -227,10 +228,11 @@ public class LongShadowsGenerator {
                     height,
                     longShadowsTextView.getShadowAngle(),
                     longShadowsTextView.getShadowLength(),
+                    longShadowsTextView.isHighQuality(),
                     (longShadowsTextView.isBackgroundTransparent()) ? 0 : longShadowsTextView.getBackgroundColor());
 
             for (ShadowPath path : paths) {
-                path.constructPath();
+                path.constructPath(longShadowsTextView.isHighQuality());
             }
 
             return paths;
@@ -265,6 +267,5 @@ public class LongShadowsGenerator {
         }
     }
 
-    public native ShadowPath[] getContours(int arr[], int width, int height, float angle, int shadowLength, int backgroundColor);
-
+    public native ShadowPath[] getContours(int arr[], int width, int height, float angle, int shadowLength, boolean highQuality, int backgroundColor);
 }

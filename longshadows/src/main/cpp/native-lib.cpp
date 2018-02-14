@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <string>
 #include <vector>
+#include <iterator>
 #include <stack>
 #include <queue>
 #include <map>
@@ -647,7 +648,7 @@ pair<int, int> getClosestPointToLight(vector<pair<int, int> > points, pair<int, 
 
 ShadowPath
 getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int height, float angle,
-                              int shadowLength, pair<int, int> ref) {
+                              int shadowLength, bool highQuality, pair<int, int> ref) {
 
     __android_log_print(ANDROID_LOG_DEBUG, "POINTS", "size_1 : %lu", points.size());
 
@@ -662,48 +663,108 @@ getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int hei
         boundary_front_polar[i].second += CORRECTIVE_OFFSET * sin(angle * PI / 180);
     }
 
-    vector<pair<int, int> > pathPoints;
+    if (!highQuality) {
+        vector<pair<int, int> > pathPoints;
 
-    for (int i = 0; i < boundary_front_polar.size(); i++) {
-        pathPoints.push_back(boundary_front_polar[i]);
-    }
+        for (int i = 0; i < boundary_front_polar.size(); i++) {
+            pathPoints.push_back(boundary_front_polar[i]);
+        }
 
-    pair<int, int> translatedPointOne = boundary_front_polar[0];
-    pair<int, int> translatedPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
+        pair<int, int> translatedPointOne = boundary_front_polar[0];
+        pair<int, int> translatedPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
 
-    translatedPointOne.first += shadowLength * cos(angle * PI / 180);
-    translatedPointOne.second += shadowLength * sin(angle * PI / 180);
+        translatedPointOne.first += shadowLength * cos(angle * PI / 180);
+        translatedPointOne.second += shadowLength * sin(angle * PI / 180);
 
-    translatedPointTwo.first += shadowLength * cos(angle * PI / 180);
-    translatedPointTwo.second += shadowLength * sin(angle * PI / 180);
+        translatedPointTwo.first += shadowLength * cos(angle * PI / 180);
+        translatedPointTwo.second += shadowLength * sin(angle * PI / 180);
 
-    pathPoints.push_back(translatedPointTwo);
-    pathPoints.push_back(translatedPointOne);
+        pathPoints.push_back(translatedPointTwo);
+        pathPoints.push_back(translatedPointOne);
 
-    ShadowPath shadowPath;
+        ShadowPath shadowPath;
 
-    shadowPath.points = pathPoints;
+        shadowPath.points = pathPoints;
 
-    pair<int, int> closestPointToLight = getClosestPointToLight(boundary_front_polar, ref);
+        pair<int, int> closestPointToLight = getClosestPointToLight(boundary_front_polar, ref);
 
-    if ((closestPointToLight.first == boundary_front_polar[0].first &&
-         closestPointToLight.second == boundary_front_polar[0].second) ||
-        (closestPointToLight.first == boundary_front_polar[boundary_front_polar_size - 1].first &&
-         closestPointToLight.second ==
-         boundary_front_polar[boundary_front_polar_size - 1].second)) {
+        if ((closestPointToLight.first == boundary_front_polar[0].first &&
+             closestPointToLight.second == boundary_front_polar[0].second) ||
+            (closestPointToLight.first ==
+             boundary_front_polar[boundary_front_polar_size - 1].first &&
+             closestPointToLight.second ==
+             boundary_front_polar[boundary_front_polar_size - 1].second)) {
 
-        shadowPath.startPointOne = boundary_front_polar[0];
-        shadowPath.startPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
+            shadowPath.startPointOne = boundary_front_polar[0];
+            shadowPath.startPointTwo = boundary_front_polar[boundary_front_polar_size - 1];
 
+        } else {
+            shadowPath.startPointOne = closestPointToLight;
+            shadowPath.startPointTwo = closestPointToLight;
+        }
+
+        shadowPath.endPointOne = translatedPointOne;
+        shadowPath.endPointTwo = translatedPointTwo;
+
+        return shadowPath;
     } else {
-        shadowPath.startPointOne = closestPointToLight;
-        shadowPath.startPointTwo = closestPointToLight;
+        vector<pair<int, int> > pathPoints;
+
+        for (int i = 0; i < boundary_front_polar.size(); i++) {
+            pathPoints.push_back(boundary_front_polar[i]);
+        }
+
+        ShadowPath shadowPath;
+        shadowPath.points = pathPoints;
+
+        return shadowPath;
+
     }
 
-    shadowPath.endPointOne = translatedPointOne;
-    shadowPath.endPointTwo = translatedPointTwo;
 
-    return shadowPath;
+//        ShadowPath *resultPath = new ShadowPath[1];
+//        resultPath[0] = shadowPath;
+//
+//        pair<ShadowPath *, int> result = make_pair(resultPath, 1);
+//
+//        return result;
+//    } else {
+//
+//        ShadowPath *resultPaths = new ShadowPath[boundary_front_polar.size() - 1];
+//
+//        vector<pair<int, int> > boundary_translated = boundary_front_polar;
+//
+//        for (int i = 0; i < boundary_translated.size(); i++) {
+//            boundary_translated[i].first += shadowLength * cos(angle * PI / 180);
+//            boundary_translated[i].second += shadowLength * sin(angle * PI / 180);
+//        }
+//
+//        for (int i = 0; i < boundary_front_polar.size() - 1; i++) {
+//            vector<pair<int, int> > pathPoints;
+//
+//            pathPoints.push_back(boundary_front_polar[i]);
+//            pathPoints.push_back(boundary_front_polar[i + 1]);
+//            pathPoints.push_back(boundary_translated[i + 1]);
+//            pathPoints.push_back(boundary_translated[i]);
+//
+//            ShadowPath shadowPath;
+//
+//            shadowPath.points = pathPoints;
+//
+//            shadowPath.startPointOne = boundary_front_polar[i];
+//            shadowPath.startPointTwo = boundary_front_polar[i + 1];
+//            shadowPath.endPointOne = boundary_translated[i];
+//            shadowPath.endPointTwo = boundary_translated[i + 1];
+//
+//            resultPaths[i] = shadowPath;
+//
+//        }
+//
+//        pair<ShadowPath *, int> result = make_pair(resultPaths, boundary_front_polar.size() - 1);
+//
+//        return result;
+//    }
+
 
 }
 
@@ -734,6 +795,7 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
         jint height,
         jfloat angle,
         jint shadowLength,
+        jboolean highQuality,
         jint backgroundColor) {
 
     vector<vector<pair<int, int> > > ans;
@@ -750,14 +812,23 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3 ");
 
     vector<ShadowPath> shadowPaths;
+    shadowPaths.clear();
 
     for (int i = 0; i < ans.size(); i++) {
 
         __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 0);
 
-        shadowPaths.push_back(
-                getFinalPathPointsFromContour(ans[i], width, height, angle, shadowLength,
-                                              getReferencePointFromContour(ans[i], angle)));
+        ShadowPath shadowPath = getFinalPathPointsFromContour(ans[i],
+                                                              width,
+                                                              height,
+                                                              angle,
+                                                              shadowLength,
+                                                              highQuality,
+                                                              getReferencePointFromContour(
+                                                                      ans[i], angle));
+
+
+        shadowPaths.push_back(shadowPath);
 
         __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 1);
     }
@@ -767,4 +838,3 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
     return convertToObjectArray(env, shadowPaths);
 
 }
-

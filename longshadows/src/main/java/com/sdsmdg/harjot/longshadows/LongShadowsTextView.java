@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class LongShadowsTextView extends TextView {
     private int shadowAlpha = Constants.DEFAULT_SHADOW_ALPHA;
     private boolean backgroundTransparent = Constants.DEFAULT_BACKGROUND_TRANSPARENT;
     private int backgroundColor = Constants.DEFAULT_BACKGROUND_COLOR;
+
+    private boolean highQuality = true;
 
     public LongShadowsTextView(Context context) {
         super(context);
@@ -90,7 +93,12 @@ public class LongShadowsTextView extends TextView {
 
         shadowPaint = new Paint();
         shadowPaint.setAntiAlias(true);
-        shadowPaint.setStyle(Paint.Style.FILL);
+        if (!highQuality) {
+            shadowPaint.setStyle(Paint.Style.FILL);
+        } else {
+            shadowPaint.setStyle(Paint.Style.STROKE);
+            shadowPaint.setStrokeWidth(2);
+        }
         shadowPaint.setAlpha(shadowAlpha);
         if (shadowBlurEnabled) {
             shadowPaint.setMaskFilter(new BlurMaskFilter(shadowBlurRadius, BlurMaskFilter.Blur.NORMAL));
@@ -103,8 +111,18 @@ public class LongShadowsTextView extends TextView {
         Log.d("TIME", "RENDER_START");
         if (shadowPaths != null && shadowPaths.size() > 0) {
             for (ShadowPath shadowPath : shadowPaths) {
-                shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
-                canvas.drawPath(shadowPath.getPath(), shadowPaint);
+                if (!highQuality) {
+                    shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
+                    canvas.drawPath(shadowPath.getPath(), shadowPaint);
+                } else {
+                    Path path = new Path(shadowPath.getPath());
+                    shadowPaint.setColor(shadowStartColor);
+                    for (int i = 0; i < shadowLength; i++) {
+                        shadowPaint.setAlpha((int) (255 * ((float) (shadowLength - i) / (float) shadowLength)));
+                        canvas.drawPath(path, shadowPaint);
+                        path.offset((float) Math.cos(shadowAngle), (float) Math.sin(shadowAngle));
+                    }
+                }
             }
         }
         Log.d("TIME", "RENDER_FINISH");
@@ -190,5 +208,13 @@ public class LongShadowsTextView extends TextView {
     @Override
     public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public boolean isHighQuality() {
+        return highQuality;
+    }
+
+    public void setHighQuality(boolean highQuality) {
+        this.highQuality = highQuality;
     }
 }
