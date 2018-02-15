@@ -116,6 +116,12 @@ public class LongShadowsTextView extends TextView {
     public void setShadowPaths(ArrayList<ShadowPath> shadowPaths) {
         this.shadowPaths = shadowPaths;
         isShadowDirty = false;
+    }
+
+    public void update(int shadowAlpha) {
+        if (shadowAlpha != -1) {
+            shadowPaint.setAlpha(shadowAlpha);
+        }
         invalidate();
     }
 
@@ -173,6 +179,14 @@ public class LongShadowsTextView extends TextView {
 
     public void setShadowBlurRadius(float shadowBlurRadius) {
         this.shadowBlurRadius = shadowBlurRadius;
+    }
+
+    public int getShadowAlpha() {
+        return shadowAlpha;
+    }
+
+    public void setShadowAlpha(int shadowAlpha) {
+        this.shadowAlpha = shadowAlpha;
     }
 
     public boolean isBackgroundTransparent() {

@@ -1,5 +1,7 @@
 package com.sdsmdg.harjot.longshadows.shadowutils;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
@@ -106,26 +108,43 @@ public class LongShadowsGenerator {
 
         if (child instanceof LongShadowsImageView) {
             ((LongShadowsImageView) child).setShadowPaths(new ArrayList<>(Arrays.asList(shadowPaths)));
+            if (shouldAnimateShadow) {
+                animateShadow(child);
+            } else {
+                ((LongShadowsImageView) child).update(-1);
+            }
         } else if (child instanceof LongShadowsTextView) {
             ((LongShadowsTextView) child).setShadowPaths(new ArrayList<>(Arrays.asList(shadowPaths)));
+            if (shouldAnimateShadow) {
+                animateShadow(child);
+            } else {
+                ((LongShadowsTextView) child).update(-1);
+            }
         }
-
-//        if (shouldAnimateShadow) {
-//            animateOutlineAlpha(child, outlineProvider);
-//        }
     }
 
-//    private void animateOutlineAlpha(final View child, CustomViewOutlineProvider outlineProvider) {
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(outlineProvider, "alpha", 0, shadowAlpha);
-//        animator.setDuration(animationDuration);
-//        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                child.invalidateOutline();
-//            }
-//        });
-//        animator.start();
-//    }
+    private void animateShadow(final View child) {
+        ValueAnimator animator = null;
+        if (child instanceof LongShadowsImageView) {
+            animator = ObjectAnimator.ofInt(0, ((LongShadowsImageView) child).getShadowAlpha());
+        } else if (child instanceof LongShadowsTextView) {
+            animator = ObjectAnimator.ofInt(0, ((LongShadowsTextView) child).getShadowAlpha());
+        } else {
+            return;
+        }
+        animator.setDuration(animationDuration);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                if (child instanceof LongShadowsImageView) {
+                    ((LongShadowsImageView) child).update((int) animation.getAnimatedValue());
+                } else if (child instanceof LongShadowsTextView) {
+                    ((LongShadowsTextView) child).update((int) animation.getAnimatedValue());
+                }
+            }
+        });
+        animator.start();
+    }
 
     private ShadowPath[] getViewPathWithOffsetAt(int position) {
         ShadowPath[] noOffsetPath = viewShadowPaths.get(position);

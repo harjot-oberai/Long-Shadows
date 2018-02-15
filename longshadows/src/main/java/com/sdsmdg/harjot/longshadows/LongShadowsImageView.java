@@ -61,7 +61,7 @@ public class LongShadowsImageView extends ImageView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LongShadowsImageView);
         final int N = a.getIndexCount();
         for (int i = 0; i < N; ++i) {
-            int attr = a.getIndex(i);                   
+            int attr = a.getIndex(i);
             if (attr == R.styleable.LongShadowsImageView_shadow_angle) {
                 shadowAngle = a.getFloat(attr, Constants.DEFAULT_SHADOW_ANGLE);
             } else if (attr == R.styleable.LongShadowsImageView_shadow_startColor) {
@@ -116,6 +116,12 @@ public class LongShadowsImageView extends ImageView {
     public void setShadowPaths(ArrayList<ShadowPath> shadowPaths) {
         this.shadowPaths = shadowPaths;
         isShadowDirty = false;
+    }
+
+    public void update(int shadowAlpha) {
+        if (shadowAlpha != -1) {
+            shadowPaint.setAlpha(shadowAlpha);
+        }
         invalidate();
     }
 
@@ -173,6 +179,14 @@ public class LongShadowsImageView extends ImageView {
 
     public void setShadowBlurRadius(float shadowBlurRadius) {
         this.shadowBlurRadius = shadowBlurRadius;
+    }
+
+    public int getShadowAlpha() {
+        return shadowAlpha;
+    }
+
+    public void setShadowAlpha(int shadowAlpha) {
+        this.shadowAlpha = shadowAlpha;
     }
 
     public boolean isBackgroundTransparent() {
