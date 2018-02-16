@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'Long-Shadows'
+    bintrayName = 'longshadows'
+
+    publishedGroupId = 'com.sdsmdg.harjot'
+    libraryName = 'Long-Shadows'
+    artifact = 'longshadows'
+
+    libraryDescription = 'A long shadows library for android'
+
+    siteUrl = 'https://github.com/harjot-oberai/Long-Shadows'
+    gitUrl = 'https://github.com/harjot-oberai/Long-Shadows.git'
+
+    libraryVersion = '0.1'
+
+    developerId = 'harjot-oberai'
+    developerName = 'Harjot Singh Oberai'
+    developerEmail = 'harjot.oberai@gmail.com'
+
+    licenseName = 'The MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
 android {
     compileSdkVersion 26
 
@@ -47,3 +71,6 @@ dependencies {
 
     implementation 'com.android.support:appcompat-v7:26.1.0'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
