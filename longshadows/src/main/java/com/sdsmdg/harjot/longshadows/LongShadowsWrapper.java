@@ -85,6 +85,38 @@ public class LongShadowsWrapper extends RelativeLayout {
         isAttached = true;
     }
 
+    public boolean isShouldShowWhenAllReady() {
+        return shouldShowWhenAllReady;
+    }
+
+    public void setShouldShowWhenAllReady(boolean shouldShowWhenAllReady) {
+        this.shouldShowWhenAllReady = shouldShowWhenAllReady;
+    }
+
+    public boolean isShouldCalculateAsync() {
+        return shouldCalculateAsync;
+    }
+
+    public void setShouldCalculateAsync(boolean shouldCalculateAsync) {
+        this.shouldCalculateAsync = shouldCalculateAsync;
+    }
+
+    public boolean isShouldAnimateShadow() {
+        return shouldAnimateShadow;
+    }
+
+    public void setShouldAnimateShadow(boolean shouldAnimateShadow) {
+        this.shouldAnimateShadow = shouldAnimateShadow;
+    }
+
+    public int getAnimationDuration() {
+        return animationDuration;
+    }
+
+    public void setAnimationDuration(int animationDuration) {
+        this.animationDuration = animationDuration;
+    }
+
     public boolean isAttached() {
         return isAttached;
     }
@@ -92,4 +124,9 @@ public class LongShadowsWrapper extends RelativeLayout {
     public void setAttached(boolean attached) {
         isAttached = attached;
     }
+
+    public void updateChildrenIfDirty(){
+        requestLayout();
+    }
+
 }
