@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sdsmdg.harjot.longshadows.LongShadowsWrapper xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EE335E"
+    app:animateShadow="true"
+    app:animationDuration="1000"
     tools:context="com.sdsmdg.harjot.longshadowsandroid.MainActivity">
-
-    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
-    <!--android:id="@+id/image_view_1"-->
-    <!--android:layout_width="200dp"-->
-    <!--android:layout_height="200dp"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:padding="10dp"-->
-    <!--android:src="@drawable/apple" />-->
-
-    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
-    <!--android:id="@+id/image_view_2"-->
-    <!--android:layout_width="150dp"-->
-    <!--android:layout_height="150dp"-->
-    <!--android:layout_below="@id/image_view_1"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:padding="10dp"-->
-    <!--android:src="@drawable/ic_cloud_lightning" />-->
 
     <com.sdsmdg.harjot.longshadows.LongShadowsTextView
         android:id="@+id/image_view_3"
@@ -32,23 +18,5 @@
         android:text="Hello"
         android:textColor="#FFFFFF"
         android:textSize="100sp" />
-
-    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
-    <!--android:id="@+id/image_view_3"-->
-    <!--android:layout_width="150dp"-->
-    <!--android:layout_height="150dp"-->
-    <!--android:layout_below="@id/image_view_2"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:padding="10dp"-->
-    <!--android:src="@drawable/ic_cloud_snow" />-->
-
-    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
-    <!--android:id="@+id/image_view_4"-->
-    <!--android:layout_width="150dp"-->
-    <!--android:layout_height="150dp"-->
-    <!--android:layout_below="@id/image_view_3"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:padding="10dp"-->
-    <!--android:src="@drawable/ic_heart" />-->
 
 </com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
