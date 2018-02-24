@@ -731,7 +731,8 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
         jintArray arr,
         jint width,
         jint height,
-        jfloat angle,
+        jfloatArray angles,
+        jint numAngles,
         jint shadowLength,
         jint backgroundColor) {
 
@@ -739,6 +740,8 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
     ans.clear();
 
     jint *c_array = (env)->GetIntArrayElements(arr, NULL);
+
+    jfloat *angles_array = (env)->GetFloatArrayElements(angles, NULL);
 
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 1 ");
 
@@ -752,13 +755,18 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
 
     for (int i = 0; i < ans.size(); i++) {
 
-        __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 0);
+        for (int j = 0; j < numAngles; j++) {
 
-        shadowPaths.push_back(
-                getFinalPathPointsFromContour(ans[i], width, height, angle, shadowLength,
-                                              getReferencePointFromContour(ans[i], angle)));
+            __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d.%d ", i + 1, j + 1, 0);
 
-        __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d ", i + 1, 1);
+            shadowPaths.push_back(
+                    getFinalPathPointsFromContour(ans[i], width, height, angles_array[j],
+                                                  shadowLength,
+                                                  getReferencePointFromContour(ans[i],
+                                                                               angles_array[j])));
+
+            __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d%d ", i + 1, j + 1, 1);
+        }
     }
 
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 4 ");

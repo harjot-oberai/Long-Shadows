@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="shadow_angle" format="float" />
+    <attr name="shadow_angle" format="string" />
     <attr name="shadow_startColor" format="color" />
     <attr name="shadow_endColor" format="color" />
     <attr name="shadow_length" format="integer" />

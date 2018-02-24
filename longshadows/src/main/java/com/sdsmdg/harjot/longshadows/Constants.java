@@ -8,7 +8,7 @@ import android.graphics.Color;
 
 public class Constants {
 
-    public static final float DEFAULT_SHADOW_ANGLE = 45.0f;
+    public static final String DEFAULT_SHADOW_ANGLE = "45.0f";
 
     public static final int DEFAULT_SHADOW_START_COLOR = Color.parseColor("#88000000");
 
