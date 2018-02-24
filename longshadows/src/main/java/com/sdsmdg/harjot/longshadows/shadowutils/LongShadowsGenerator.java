@@ -212,10 +212,19 @@ public class LongShadowsGenerator {
             int[] intArray = new int[width * height];
             bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
+            String[] angleArray = longShadowsImageView.getShadowAngle().split(",");
+            int length = angleArray.length;
+            float[] angles_array = new float[length];
+
+            for (int i = 0; i < length; i++) {
+                angles_array[i] = Float.parseFloat(angleArray[i]);
+            }
+
             ShadowPath[] paths = getContours(intArray,
                     width,
                     height,
-                    longShadowsImageView.getShadowAngle(),
+                    angles_array,
+                    length,
                     longShadowsImageView.getShadowLength(),
                     (longShadowsImageView.isBackgroundTransparent()) ? 0 : longShadowsImageView.getBackgroundColor());
 
@@ -241,10 +250,19 @@ public class LongShadowsGenerator {
             int[] intArray = new int[width * height];
             bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
+            String[] angleArray = longShadowsTextView.getShadowAngle().split(",");
+            int length = angleArray.length;
+            float[] angles_array = new float[length];
+
+            for (int i = 0; i < length; i++) {
+                angles_array[i] = Float.parseFloat(angleArray[i]);
+            }
+
             ShadowPath[] paths = getContours(intArray,
                     width,
                     height,
-                    longShadowsTextView.getShadowAngle(),
+                    angles_array,
+                    length,
                     longShadowsTextView.getShadowLength(),
                     (longShadowsTextView.isBackgroundTransparent()) ? 0 : longShadowsTextView.getBackgroundColor());
 
@@ -284,6 +302,6 @@ public class LongShadowsGenerator {
         }
     }
 
-    public native ShadowPath[] getContours(int arr[], int width, int height, float angle, int shadowLength, int backgroundColor);
+    public native ShadowPath[] getContours(int arr[], int width, int height, float[] angles_array, int numAngles, int shadowLength, int backgroundColor);
 
 }

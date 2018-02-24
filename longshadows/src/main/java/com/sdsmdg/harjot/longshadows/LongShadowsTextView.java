@@ -28,7 +28,7 @@ public class LongShadowsTextView extends TextView {
 
     private boolean isShadowDirty = true;
 
-    private float shadowAngle = Constants.DEFAULT_SHADOW_ANGLE;
+    private String shadowAngle = Constants.DEFAULT_SHADOW_ANGLE;
     private int shadowStartColor = Constants.DEFAULT_SHADOW_START_COLOR;
     private int shadowEndColor = Constants.DEFAULT_SHADOW_END_COLOR;
     private int shadowLength = Constants.DEFAULT_SHADOW_LENGTH;
@@ -63,7 +63,7 @@ public class LongShadowsTextView extends TextView {
         for (int i = 0; i < N; ++i) {
             int attr = a.getIndex(i);
             if (attr == R.styleable.LongShadowsTextView_shadow_angle) {
-                shadowAngle = a.getFloat(attr, Constants.DEFAULT_SHADOW_ANGLE);
+                shadowAngle = a.getString(attr);
             } else if (attr == R.styleable.LongShadowsTextView_shadow_startColor) {
                 shadowStartColor = a.getColor(attr, Constants.DEFAULT_SHADOW_START_COLOR);
             } else if (attr == R.styleable.LongShadowsTextView_shadow_endColor) {
@@ -133,11 +133,11 @@ public class LongShadowsTextView extends TextView {
         isShadowDirty = shadowDirty;
     }
 
-    public float getShadowAngle() {
+    public String getShadowAngle() {
         return shadowAngle;
     }
 
-    public void setShadowAngle(float shadowAngle) {
+    public void setShadowAngle(String shadowAngle) {
         this.shadowAngle = shadowAngle;
     }
 
