@@ -4,19 +4,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EE335E"
-    app:animateShadow="true"
-    app:animationDuration="1000"
+    android:background="#F5362C"
     tools:context="com.sdsmdg.harjot.longshadowsandroid.MainActivity">
 
-    <com.sdsmdg.harjot.longshadows.LongShadowsTextView
-        android:id="@+id/image_view_3"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+    <!--CA054D-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsTextView-->
+    <!--android:id="@+id/text_view_3"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="300dp"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Hello World"-->
+    <!--android:textColor="#FFFFFF"-->
+    <!--android:textSize="100sp"-->
+    <!--app:shadow_angle="135"-->
+    <!--app:shadow_startColor="#555555" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
+    <!--android:layout_width="90dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toLeftOf="@+id/image_view_3"-->
+    <!--android:padding="15dp"-->
+    <!--android:src="@drawable/ic_circle"-->
+    <!--app:shadow_angle="150"-->
+    <!--app:shadow_length="300" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
+    <!--android:id="@+id/image_view_3"-->
+    <!--android:layout_width="90dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toLeftOf="@+id/image_view_1"-->
+    <!--android:padding="15dp"-->
+    <!--android:src="@drawable/ic_circle"-->
+    <!--app:shadow_angle="130"-->
+    <!--app:shadow_length="300" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
+    <!--android:id="@+id/image_view_1"-->
+    <!--android:layout_width="90dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toLeftOf="@+id/image_view"-->
+    <!--android:padding="15dp"-->
+    <!--android:src="@drawable/ic_circle"-->
+    <!--app:shadow_angle="110"-->
+    <!--app:shadow_length="300" />-->
+
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+        android:id="@+id/image_view"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="Hello"
-        android:textColor="#FFFFFF"
-        android:textSize="100sp" />
+        android:padding="15dp"
+        android:src="@drawable/ic_facebook_2"
+        app:shadow_angle="50" />
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
+    <!--android:id="@+id/image_view_2"-->
+    <!--android:layout_width="90dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toRightOf="@+id/image_view"-->
+    <!--android:padding="15dp"-->
+    <!--android:src="@drawable/ic_circle"-->
+    <!--app:shadow_angle="70"-->
+    <!--app:shadow_length="300" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
+    <!--android:id="@+id/image_view_4"-->
+    <!--android:layout_width="90dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toRightOf="@+id/image_view_2"-->
+    <!--android:padding="15dp"-->
+    <!--android:src="@drawable/ic_circle"-->
+    <!--app:shadow_angle="50"-->
+    <!--app:shadow_length="300" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsImageView-->
+    <!--android:layout_width="90dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toRightOf="@+id/image_view_4"-->
+    <!--android:padding="15dp"-->
+    <!--android:src="@drawable/ic_circle"-->
+    <!--app:shadow_angle="30"-->
+    <!--app:shadow_length="300" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsTextView-->
+    <!--android:id="@+id/text_1"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toLeftOf="@id/text_2"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Y"-->
+    <!--android:textColor="#FFFFFF"-->
+    <!--android:textSize="100sp"-->
+    <!--app:shadow_length="800"-->
+    <!--app:shadow_angle="50"-->
+    <!--app:shadow_endColor="#009345"-->
+    <!--app:shadow_startColor="#009345" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsTextView-->
+    <!--android:id="@+id/text_2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toLeftOf="@id/center"-->
+    <!--android:gravity="center"-->
+    <!--android:text="O"-->
+    <!--android:textColor="#FFFFFF"-->
+    <!--android:textSize="100sp"-->
+    <!--app:shadow_length="800"-->
+    <!--app:shadow_angle="50"-->
+    <!--app:shadow_endColor="#FF9A0A"-->
+    <!--app:shadow_startColor="#FF9A0A" />-->
+
+    <!--<View-->
+    <!--android:id="@+id/center"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_centerInParent="true" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsTextView-->
+    <!--android:id="@+id/text_3"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toRightOf="@id/center"-->
+    <!--android:gravity="center"-->
+    <!--android:text="L"-->
+    <!--android:textColor="#FFFFFF"-->
+    <!--android:textSize="100sp"-->
+    <!--app:shadow_length="800"-->
+    <!--app:shadow_angle="50"-->
+    <!--app:shadow_endColor="#F5362C"-->
+    <!--app:shadow_startColor="#F5362C" />-->
+
+    <!--<com.sdsmdg.harjot.longshadows.LongShadowsTextView-->
+    <!--android:id="@+id/text_4"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toRightOf="@id/text_3"-->
+    <!--android:gravity="center"-->
+    <!--android:text="O"-->
+    <!--android:textColor="#FFFFFF"-->
+    <!--android:textSize="100sp"-->
+    <!--app:shadow_length="800"-->
+    <!--app:shadow_angle="50"-->
+    <!--app:shadow_endColor="#0684AA"-->
+    <!--app:shadow_startColor="#0684AA" />-->
 
 </com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
