@@ -1,7 +1,7 @@
 <div align="center"><img src="/screens/cover.png"/></div>
 
 # <div align="center">Long-Shadows</div>
-<div align="center">A library for efficiently generating and rendering beautifult long shadows in Android.</div><br>
+<div align="center">A library for efficiently generating and rendering beautiful long shadows in Android.</div><br>
 
 <div align="center">
 	<a href="https://www.android.com">
@@ -41,6 +41,7 @@
 
 - <b>Any Type of views</b> : Long-Shadows can render shadow for any type of view, even custom views.
 - <b>Heavy calculation in Native</b> : Long-Shadows shifts the load of heavy calculations to native, to reduce overhead in Java. Thus the rendering is very fast and efficient.
+- <b>Precise control over shadow of every View</b> : The library supports fine control over shadows of a view, so two views in same ViewGroup can have different shadow parameters.
 - <b>Multiple Shadows for a View</b> : The library support rendering multiple long shadows for a single view, simulating multiple light sources.
 - <b>Async Calculations</b> : The library allows the operations to be asynchronous to avoid blocking the UI thread for long calculations.
 - <b>Shadow animations</b> : The library supports fade out animation while rendering the shadow.
