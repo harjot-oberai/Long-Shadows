@@ -31,7 +31,7 @@ public class LongShadowsTextView extends TextView {
     private String shadowAngle = Constants.DEFAULT_SHADOW_ANGLE;
     private int shadowStartColor = Constants.DEFAULT_SHADOW_START_COLOR;
     private int shadowEndColor = Constants.DEFAULT_SHADOW_END_COLOR;
-    private int shadowLength = Constants.DEFAULT_SHADOW_LENGTH;
+    private String shadowLength = Constants.DEFAULT_SHADOW_LENGTH;
     private boolean shadowBlurEnabled = Constants.DEFAULT_SHADOW_BLUR_ENABLED;
     private float shadowBlurRadius = Constants.DEFAULT_SHADOW_BLUR_RADIUS;
     private int shadowAlpha = Constants.DEFAULT_SHADOW_ALPHA;
@@ -69,7 +69,7 @@ public class LongShadowsTextView extends TextView {
             } else if (attr == R.styleable.LongShadowsTextView_shadow_endColor) {
                 shadowEndColor = a.getColor(attr, Constants.DEFAULT_SHADOW_END_COLOR);
             } else if (attr == R.styleable.LongShadowsTextView_shadow_length) {
-                shadowLength = a.getInt(attr, Constants.DEFAULT_SHADOW_LENGTH);
+                shadowLength = a.getString(attr);
             } else if (attr == R.styleable.LongShadowsTextView_shadow_blur_enabled) {
                 shadowBlurEnabled = a.getBoolean(attr, Constants.DEFAULT_SHADOW_BLUR_ENABLED);
             } else if (attr == R.styleable.LongShadowsTextView_shadow_blur_radius) {
@@ -157,11 +157,11 @@ public class LongShadowsTextView extends TextView {
         this.shadowEndColor = shadowEndColor;
     }
 
-    public int getShadowLength() {
+    public String getShadowLength() {
         return shadowLength;
     }
 
-    public void setShadowLength(int shadowLength) {
+    public void setShadowLength(String shadowLength) {
         this.shadowLength = shadowLength;
     }
 

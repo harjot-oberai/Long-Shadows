@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -213,19 +214,31 @@ public class LongShadowsGenerator {
             bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
             String[] angleArray = longShadowsImageView.getShadowAngle().split(",");
-            int length = angleArray.length;
-            float[] angles_array = new float[length];
+            int shadowAngleArraySize = angleArray.length;
+            float[] angles_array = new float[shadowAngleArraySize];
 
-            for (int i = 0; i < length; i++) {
-                angles_array[i] = Float.parseFloat(angleArray[i]);
+            String[] shadowLengthArray = longShadowsImageView.getShadowLength().split(",");
+            int shadowLengthArraySize = shadowLengthArray.length;
+            int[] shadow_lengths = new int[shadowAngleArraySize]; // No of angles dictate the number of shadow lengths
+
+            for (int i = 0; i < shadowAngleArraySize; i++) {
+                angles_array[i] = Float.parseFloat(angleArray[i].trim());
+            }
+
+            for (int i = 0; i < shadowAngleArraySize; i++) {
+                if (i < shadowLengthArraySize) {
+                    shadow_lengths[i] = Integer.parseInt(shadowLengthArray[i].trim());
+                } else {
+                    shadow_lengths[i] = Integer.parseInt(Constants.DEFAULT_SHADOW_LENGTH);
+                }
             }
 
             ShadowPath[] paths = getContours(intArray,
                     width,
                     height,
                     angles_array,
-                    length,
-                    longShadowsImageView.getShadowLength(),
+                    shadowAngleArraySize,
+                    shadow_lengths,
                     (longShadowsImageView.isBackgroundTransparent()) ? 0 : longShadowsImageView.getBackgroundColor());
 
             for (ShadowPath path : paths) {
@@ -251,19 +264,31 @@ public class LongShadowsGenerator {
             bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
             String[] angleArray = longShadowsTextView.getShadowAngle().split(",");
-            int length = angleArray.length;
-            float[] angles_array = new float[length];
+            int shadowAngleArraySize = angleArray.length;
+            float[] angles_array = new float[shadowAngleArraySize];
 
-            for (int i = 0; i < length; i++) {
-                angles_array[i] = Float.parseFloat(angleArray[i]);
+            String[] shadowLengthArray = longShadowsTextView.getShadowLength().split(",");
+            int shadowLengthArraySize = shadowLengthArray.length;
+            int[] shadow_lengths = new int[shadowAngleArraySize]; // No of angles dictate the number of shadow lengths
+
+            for (int i = 0; i < shadowAngleArraySize; i++) {
+                angles_array[i] = Float.parseFloat(angleArray[i].trim());
+            }
+
+            for (int i = 0; i < shadowAngleArraySize; i++) {
+                if (i < shadowLengthArraySize) {
+                    shadow_lengths[i] = Integer.parseInt(shadowLengthArray[i].trim());
+                } else {
+                    shadow_lengths[i] = Integer.parseInt(Constants.DEFAULT_SHADOW_LENGTH);
+                }
             }
 
             ShadowPath[] paths = getContours(intArray,
                     width,
                     height,
                     angles_array,
-                    length,
-                    longShadowsTextView.getShadowLength(),
+                    shadowAngleArraySize,
+                    shadow_lengths,
                     (longShadowsTextView.isBackgroundTransparent()) ? 0 : longShadowsTextView.getBackgroundColor());
 
             for (ShadowPath path : paths) {
@@ -302,6 +327,6 @@ public class LongShadowsGenerator {
         }
     }
 
-    public native ShadowPath[] getContours(int arr[], int width, int height, float[] angles_array, int numAngles, int shadowLength, int backgroundColor);
+    public native ShadowPath[] getContours(int arr[], int width, int height, float[] angles_array, int numAngles, int[] shadowLengths, int backgroundColor);
 
 }

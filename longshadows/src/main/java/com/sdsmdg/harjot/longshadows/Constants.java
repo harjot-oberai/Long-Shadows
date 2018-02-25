@@ -14,7 +14,7 @@ public class Constants {
 
     public static final int DEFAULT_SHADOW_END_COLOR = Color.TRANSPARENT;
 
-    public static final int DEFAULT_SHADOW_LENGTH = 400;
+    public static final String DEFAULT_SHADOW_LENGTH = "400";
 
     public static final boolean DEFAULT_SHADOW_BLUR_ENABLED = true;
 
