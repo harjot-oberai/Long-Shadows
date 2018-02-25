@@ -733,15 +733,19 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
         jint height,
         jfloatArray angles,
         jint numAngles,
-        jint shadowLength,
+        jintArray shadowLengths,
         jint backgroundColor) {
 
     vector<vector<pair<int, int> > > ans;
     ans.clear();
 
+    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 0 ");
+
     jint *c_array = (env)->GetIntArrayElements(arr, NULL);
 
     jfloat *angles_array = (env)->GetFloatArrayElements(angles, NULL);
+
+    jint *shadow_lengths = (env)->GetIntArrayElements(shadowLengths, NULL);
 
     __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 1 ");
 
@@ -761,7 +765,7 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
 
             shadowPaths.push_back(
                     getFinalPathPointsFromContour(ans[i], width, height, angles_array[j],
-                                                  shadowLength,
+                                                  shadow_lengths[j],
                                                   getReferencePointFromContour(ans[i],
                                                                                angles_array[j])));
 
