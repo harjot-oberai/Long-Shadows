@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/harjot-oberai/Long-Shadows'
     gitUrl = 'https://github.com/harjot-oberai/Long-Shadows.git'
 
-    libraryVersion = '0.1'
+    libraryVersion = '0.2'
 
     developerId = 'harjot-oberai'
     developerName = 'Harjot Singh Oberai'
