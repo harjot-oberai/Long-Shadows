@@ -58,7 +58,7 @@ dependencies {
 Magic !
 
 # Examples
-Here are some examples to provide you a head start with using this library. The examples are selected to demonstrate almost all tha basic features provided by the library. So lets start !
+Here are some examples to provide you a head start with using this library. The examples are selected to demonstrate almost all the basic features provided by the library. So lets start !
 
 ## Example 1 (Basic)
 
