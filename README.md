@@ -18,26 +18,27 @@
   </a>
 </div><br>
 
-## Table of contents
+# Table of contents
 
   * [Features](#features)
   * [Usage](#usage)
   * [How does this work ?](#how-does-this-work-)
   * [Examples](#examples)
-  	* [Example 1 (Basic)](#example-1-basic)
-  	* [Example 2 (Shadow Length)](#example-2-shadow-length)
-  	* [Example 3 (Shadow Blur) ](#example-3-shadow-blur)
-  	* [Example 4 (Shadow Color)](#example-4-shadow-color)
-  	* [Example 5 (Multiple Views, Multiple Angles)](#example-5-multiple-views-multiple-angles)
-  	* [Example 6 (Single View, Multiple Shadows)](#example-6-single-view-multiple-shadows)
-  	* [Example 7 (Non-Transparent background)](#example-7-non-transparent-background)
+    * [Example 1 (Basic)](#example-1-basic)
+  	* [Example 2 (Shadow Angle)](#example-2-shadow-angle)
+  	* [Example 3 (Shadow Length)](#example-3-shadow-length)
+  	* [Example 4 (Shadow Blur) ](#example-4-shadow-blur)
+  	* [Example 5 (Shadow Color)](#example-5-shadow-color)
+  	* [Example 6 (Multiple Views, Multiple Angles)](#example-6-multiple-views-multiple-angles)
+  	* [Example 7 (Single View, Multiple Shadows)](#example-7-single-view-multiple-shadows)
+  	* [Example 8 (Non-Transparent background)](#example-8-non-transparent-background)
   * [Custom Views and ViewGroups](#using-long-shadows-with-custom-views-and-custom-viewgroups)
   * [Documentation](#documentation)
   * [Limitations](#limitations)
   * [Credits](#credits)
   * [License](#license)
 
-## Features
+# Features
 
 - <b>Any Type of views</b> : Long-Shadows can render shadow for any type of view, even custom views.
 - <b>Heavy calculation in Native</b> : Long-Shadows shifts the load of heavy calculations to native, to reduce overhead in Java. Thus the rendering is very fast and efficient.
@@ -46,7 +47,7 @@
 - <b>Async Calculations</b> : The library allows the operations to be asynchronous to avoid blocking the UI thread for long calculations.
 - <b>Shadow animations</b> : The library supports fade out animation while rendering the shadow.
 
-## Usage
+# Usage
 Just add the following dependency in your app's `build.gradle`
 ```groovy
 dependencies {
@@ -54,32 +55,75 @@ dependencies {
 }
 ```
 
-## How does this work ?
+# How does this work ?
 Magic !
 
-## Examples
+# Examples
+Here are some examples to provide you a head start with using this library. The examples are selected to demonstrate almost all tha basic features provided by the library. So lets start !
 
-#### Example 1 (Basic)
+## Example 1 (Basic)
 
-#### Example 2 (Shadow Length)
+<b>LongShadowsImageView</b>
 
-#### Example 3 (Shadow Blur) 
+<img src="/screens/example_1_1.png" align="right" width="350">
 
-#### Example 4 (Shadow Color)
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsWrapper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5362C">
 
-#### Example 5 (Multiple Views, Multiple Angles)
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_slack_1" />
 
-#### Example 6 (Single View, Multiple Shadows)
+</com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
+```
 
-#### Example 7 (Non-Transparent background)
+<b>LongShadowsTextView</b>
 
-## Using Long-Shadows with custom Views and custom ViewGroups
+<img src="/screens/example_1_2.png" align="right" width="350">
 
-## Documentation
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsWrapper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#40476D">
 
-## Limitations
+    <com.sdsmdg.harjot.longshadows.LongShadowsTextView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:text="Hello"
+        android:textColor="#FFFFFF" />
 
-## Credits
+</com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
+```
 
-## License
+## Example 2 (Shadow Angle)
+
+## Example 3 (Shadow Length)
+
+## Example 4 (Shadow Blur) 
+
+## Example 5 (Shadow Color)
+
+## Example 6 (Multiple Views, Multiple Angles)
+
+## Example 7 (Single View, Multiple Shadows)
+
+## Example 8 (Non-Transparent background)
+
+# Custom Views and ViewGroups
+
+# Documentation
+
+# Limitations
+
+# Credits
+
+# License
 <b>Long-Shadows</b> is licensed under `MIT license`. View [license](LICENSE.md).
