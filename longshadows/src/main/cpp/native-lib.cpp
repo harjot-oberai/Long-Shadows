@@ -16,6 +16,8 @@
 
 #define CORRECTIVE_OFFSET 3
 
+#define ALPHA_0 0
+
 #define REFERENCE_POINT_OFFSET 2000
 
 using namespace std;
@@ -63,7 +65,7 @@ contours(JNIEnv *env, int arr[], int width, int height, int backgroundColor) {
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            if (id[i][j] == 0 && mat[i][j] != backgroundColor) {
+            if (id[i][j] == 0 && mat[i][j] != backgroundColor && mat[i][j] != ALPHA_0) {
                 cnt++;
                 temp.clear();
 
@@ -81,7 +83,7 @@ contours(JNIEnv *env, int arr[], int width, int height, int backgroundColor) {
                     if (x < 0 || y < 0 || x >= height || y >= width)
                         continue;
 
-                    if (mat[x][y] == backgroundColor)
+                    if (mat[x][y] == backgroundColor || mat[x][y] == ALPHA_0)
                         continue;
 
                     if (id[x][y] != 0) {
@@ -90,7 +92,7 @@ contours(JNIEnv *env, int arr[], int width, int height, int backgroundColor) {
                     }
 
                     assert(id[x][y] == 0);
-                    assert(mat[x][y] != backgroundColor);
+                    assert(mat[x][y] != backgroundColor && mat[x][y] != ALPHA_0);
 
                     id[x][y] = cnt;
 
@@ -106,7 +108,7 @@ contours(JNIEnv *env, int arr[], int width, int height, int backgroundColor) {
                                 break;
                             }
 
-                            if (mat[x1][y1] == backgroundColor) {
+                            if (mat[x1][y1] == backgroundColor || mat[x1][y1] == ALPHA_0) {
                                 flag = true;
                                 break;
                             }
