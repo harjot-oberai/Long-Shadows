@@ -19,6 +19,9 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     boolean isAttached = false;
 
+    boolean shouldClipChildren = false;
+    boolean shouldClipToPadding = false;
+
     public LongShadowsWrapper(Context context) {
         super(context);
         init();
@@ -56,8 +59,8 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     void init() {
 
-        setClipChildren(false);
-        setClipToPadding(false);
+        setShouldClipChildren(false);
+        setShouldClipToPadding(false);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
     }
 
@@ -125,7 +128,25 @@ public class LongShadowsWrapper extends RelativeLayout {
         isAttached = attached;
     }
 
-    public void updateChildrenIfDirty(){
+    public boolean isShouldClipChildren() {
+        return shouldClipChildren;
+    }
+
+    public void setShouldClipChildren(boolean shouldClipChildren) {
+        setClipChildren(shouldClipChildren);
+        this.shouldClipChildren = shouldClipChildren;
+    }
+
+    public boolean isShouldClipToPadding() {
+        return shouldClipToPadding;
+    }
+
+    public void setShouldClipToPadding(boolean shouldClipToPadding) {
+        setClipToPadding(shouldClipToPadding);
+        this.shouldClipToPadding = shouldClipToPadding;
+    }
+
+    public void updateChildrenIfDirty() {
         requestLayout();
     }
 

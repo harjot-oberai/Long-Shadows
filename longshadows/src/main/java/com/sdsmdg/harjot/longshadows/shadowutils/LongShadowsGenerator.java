@@ -40,6 +40,7 @@ public class LongShadowsGenerator {
     private SparseArray<ShadowPath[]> viewShadowPaths;
 
     private ViewGroup viewGroup;
+    private ArrayList<View> shadowChildren;
 
     private boolean shouldShowWhenAllReady = Constants.DEFAULT_SHOW_WHEN_ALL_READY;
     private boolean shouldCalculateAsync = Constants.DEFAULT_CALCULATE_ASYNC;
@@ -64,11 +65,10 @@ public class LongShadowsGenerator {
     public void generate() {
         clearShadowCache(); //Maybe some children changed their size
         childrenWithShadow = 0;
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View view = viewGroup.getChildAt(i);
-            if (view instanceof LongShadowsWrapper) {
-                continue;
-            }
+
+        shadowChildren = getAllChildren(viewGroup);
+        for (int i = 0; i < shadowChildren.size(); i++) {
+            View view = shadowChildren.get(i);
             childrenWithShadow++;
             if (shouldCalculateAsync) {
                 calculateAndRenderShadowAsync(view, i);
@@ -76,6 +76,31 @@ public class LongShadowsGenerator {
                 calculateAndRenderShadow(view, i);
             }
         }
+    }
+
+    private ArrayList<View> getAllChildren(ViewGroup v) {
+
+        ArrayList<View> result = new ArrayList<>();
+
+        for (int i = 0; i < v.getChildCount(); i++) {
+
+            View child = v.getChildAt(i);
+
+            ArrayList<View> viewArrayList = new ArrayList<>();
+
+            if (child instanceof LongShadowsWrapper) {
+                continue;
+            } else if (child instanceof ViewGroup) {
+                ((ViewGroup) child).setClipChildren(((LongShadowsWrapper) viewGroup).isShouldClipChildren());
+                ((ViewGroup) child).setClipToPadding(((LongShadowsWrapper) viewGroup).isShouldClipToPadding());
+                viewArrayList.addAll(getAllChildren((ViewGroup) child));
+            } else {
+                viewArrayList.add(child);
+            }
+
+            result.addAll(viewArrayList);
+        }
+        return result;
     }
 
     public void releaseResources() {
@@ -91,7 +116,7 @@ public class LongShadowsGenerator {
 
     private void updateShadows(int pos) {
         if (pos == POS_UPDATE_ALL) {
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            for (int i = 0; i < shadowChildren.size(); i++) {
                 setLongShadowAtPosition(i);
             }
         } else {
@@ -105,7 +130,7 @@ public class LongShadowsGenerator {
             //Path calculation is still in progress
             return;
         }
-        final View child = viewGroup.getChildAt(childIndex);
+        final View child = shadowChildren.get(childIndex);
 
         if (child instanceof LongShadowsImageView) {
             ((LongShadowsImageView) child).setShadowPaths(new ArrayList<>(Arrays.asList(shadowPaths)));
