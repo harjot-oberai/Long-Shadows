@@ -3,6 +3,7 @@ package com.sdsmdg.harjot.longshadowsandroid;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -11,6 +12,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Log.e("EXCEPTION_IN_THREAD", t.getName() + " : " + e.getMessage());
+            }
+        });
 
         Typeface typeface = Typeface.createFromAsset(getResources().getAssets(), "fonts/Quicksand-Regular.ttf");
 
