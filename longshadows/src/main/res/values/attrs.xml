@@ -35,6 +35,18 @@
         <attr name="background_color" />
     </declare-styleable>
 
+    <declare-styleable name="LongShadowsView">
+        <attr name="shadow_angle" />
+        <attr name="shadow_startColor" />
+        <attr name="shadow_endColor" />
+        <attr name="shadow_length" />
+        <attr name="shadow_blur_enabled" />
+        <attr name="shadow_blur_radius" />
+        <attr name="shadow_alpha" />
+        <attr name="background_transparent" />
+        <attr name="background_color" />
+    </declare-styleable>
+
     <declare-styleable name="LongShadowsWrapper">
         <attr name="calculateAsync" format="boolean" />
         <attr name="showWhenAllReady" format="boolean" />

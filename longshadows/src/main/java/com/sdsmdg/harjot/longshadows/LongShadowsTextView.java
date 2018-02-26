@@ -46,18 +46,18 @@ public class LongShadowsTextView extends TextView {
     public LongShadowsTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        initXMLAttrs(context, attrs);
-        init();
+        this.initBaseXMLAttrs(context, attrs);
+        this.initBasePaintsAndArrays();
     }
 
     public LongShadowsTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        initXMLAttrs(context, attrs);
-        init();
+        this.initBaseXMLAttrs(context, attrs);
+        this.initBasePaintsAndArrays();
     }
 
-    void initXMLAttrs(Context context, AttributeSet attrs) {
+    final void initBaseXMLAttrs(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LongShadowsTextView);
         final int N = a.getIndexCount();
         for (int i = 0; i < N; ++i) {
@@ -85,7 +85,7 @@ public class LongShadowsTextView extends TextView {
         a.recycle();
     }
 
-    void init() {
+    final void initBasePaintsAndArrays() {
         shadowPaths = new ArrayList<>();
 
         shadowPaint = new Paint();

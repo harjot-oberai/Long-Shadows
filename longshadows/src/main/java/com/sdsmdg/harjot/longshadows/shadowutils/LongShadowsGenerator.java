@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import com.sdsmdg.harjot.longshadows.Constants;
 import com.sdsmdg.harjot.longshadows.LongShadowsImageView;
 import com.sdsmdg.harjot.longshadows.LongShadowsTextView;
+import com.sdsmdg.harjot.longshadows.LongShadowsView;
 import com.sdsmdg.harjot.longshadows.LongShadowsWrapper;
 import com.sdsmdg.harjot.longshadows.models.ShadowPath;
 
@@ -121,6 +121,13 @@ public class LongShadowsGenerator {
             } else {
                 ((LongShadowsTextView) child).update(-1);
             }
+        } else if (child instanceof LongShadowsView) {
+            ((LongShadowsView) child).setShadowPaths(new ArrayList<>(Arrays.asList(shadowPaths)));
+            if (shouldAnimateShadow) {
+                animateShadow(child);
+            } else {
+                ((LongShadowsView) child).update(-1);
+            }
         }
     }
 
@@ -130,6 +137,8 @@ public class LongShadowsGenerator {
             animator = ObjectAnimator.ofInt(0, ((LongShadowsImageView) child).getShadowAlpha());
         } else if (child instanceof LongShadowsTextView) {
             animator = ObjectAnimator.ofInt(0, ((LongShadowsTextView) child).getShadowAlpha());
+        } else if (child instanceof LongShadowsView) {
+            animator = ObjectAnimator.ofInt(0, ((LongShadowsView) child).getShadowAlpha());
         } else {
             return;
         }
@@ -141,6 +150,8 @@ public class LongShadowsGenerator {
                     ((LongShadowsImageView) child).update((int) animation.getAnimatedValue());
                 } else if (child instanceof LongShadowsTextView) {
                     ((LongShadowsTextView) child).update((int) animation.getAnimatedValue());
+                } else if (child instanceof LongShadowsView) {
+                    ((LongShadowsView) child).update((int) animation.getAnimatedValue());
                 }
             }
         });
@@ -290,6 +301,56 @@ public class LongShadowsGenerator {
                     shadowAngleArraySize,
                     shadow_lengths,
                     (longShadowsTextView.isBackgroundTransparent()) ? 0 : longShadowsTextView.getBackgroundColor());
+
+            for (ShadowPath path : paths) {
+                path.constructPath();
+            }
+
+            return paths;
+
+        } else if (view instanceof LongShadowsView) {
+
+            LongShadowsView longShadowsView = (LongShadowsView) view;
+
+            if (!longShadowsView.isShadowDirty()) {
+                return null;
+            }
+
+            view.buildDrawingCache();
+            Bitmap bitmap = view.getDrawingCache();
+
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            int[] intArray = new int[width * height];
+            bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
+
+            String[] angleArray = longShadowsView.getShadowAngle().split(",");
+            int shadowAngleArraySize = angleArray.length;
+            float[] angles_array = new float[shadowAngleArraySize];
+
+            String[] shadowLengthArray = longShadowsView.getShadowLength().split(",");
+            int shadowLengthArraySize = shadowLengthArray.length;
+            int[] shadow_lengths = new int[shadowAngleArraySize]; // No of angles dictate the number of shadow lengths
+
+            for (int i = 0; i < shadowAngleArraySize; i++) {
+                angles_array[i] = Float.parseFloat(angleArray[i].trim());
+            }
+
+            for (int i = 0; i < shadowAngleArraySize; i++) {
+                if (i < shadowLengthArraySize) {
+                    shadow_lengths[i] = Integer.parseInt(shadowLengthArray[i].trim());
+                } else {
+                    shadow_lengths[i] = Integer.parseInt(Constants.DEFAULT_SHADOW_LENGTH);
+                }
+            }
+
+            ShadowPath[] paths = getContours(intArray,
+                    width,
+                    height,
+                    angles_array,
+                    shadowAngleArraySize,
+                    shadow_lengths,
+                    (longShadowsView.isBackgroundTransparent()) ? 0 : longShadowsView.getBackgroundColor());
 
             for (ShadowPath path : paths) {
                 path.constructPath();
