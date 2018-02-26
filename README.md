@@ -29,9 +29,8 @@
   	* [Example 3 (Shadow Length)](#example-3-shadow-length)
   	* [Example 4 (Shadow Blur) ](#example-4-shadow-blur)
   	* [Example 5 (Shadow Color)](#example-5-shadow-color)
-  	* [Example 6 (Multiple Views, Multiple Angles)](#example-6-multiple-views-multiple-angles)
-  	* [Example 7 (Single View, Multiple Shadows)](#example-7-single-view-multiple-shadows)
-  	* [Example 8 (Non-Transparent background)](#example-8-non-transparent-background)
+  	* [Example 6 (Single View, Multiple Shadows)](#example-6-single-view-multiple-shadows)
+  	* [Example 7 (Non-Transparent background)](#example-7-non-transparent-background)
   * [Custom Views and ViewGroups](#using-long-shadows-with-custom-views-and-custom-viewgroups)
   * [Documentation](#documentation)
   * [Limitations](#limitations)
@@ -105,17 +104,37 @@ Here are some examples to provide you a head start with using this library. The 
 
 ## Example 2 (Shadow Angle)
 
+#### XML
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsWrapper 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AD5D4E">
+
+        <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_circle"
+            app:shadow_angle="90" />
+
+</com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
+```
+
+#### Result
+
+<img src="/screens/example_2.png">
+
 ## Example 3 (Shadow Length)
 
 ## Example 4 (Shadow Blur) 
 
 ## Example 5 (Shadow Color)
 
-## Example 6 (Multiple Views, Multiple Angles)
+## Example 6 (Single View, Multiple Shadows)
 
-## Example 7 (Single View, Multiple Shadows)
-
-## Example 8 (Non-Transparent background)
+## Example 7 (Non-Transparent background)
 
 # Custom Views and ViewGroups
 
