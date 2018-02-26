@@ -113,11 +113,11 @@ Here are some examples to provide you a head start with using this library. The 
     android:layout_height="match_parent"
     android:background="#AD5D4E">
 
-        <com.sdsmdg.harjot.longshadows.LongShadowsImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_circle"
-            app:shadow_angle="90" />
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_circle"
+        app:shadow_angle="90" />
 
 </com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
 ```
@@ -127,6 +127,29 @@ Here are some examples to provide you a head start with using this library. The 
 <img src="/screens/example_2.png">
 
 ## Example 3 (Shadow Length)
+
+#### XML
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsWrapper 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AEC5EB">
+
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_rocket"
+            app:shadow_angle="90"
+            app:shadow_length="100" />
+
+</com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
+```
+
+#### Result
+
+<img src="/screens/example_3.png">
 
 ## Example 4 (Shadow Blur) 
 
