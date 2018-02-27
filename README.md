@@ -178,6 +178,33 @@ Here are some examples to provide you a head start with using this library. The 
 
 ## Example 5 (Shadow Color)
 
+Shadows are filled by a linear gradient, so shadow color is built of two compontents `shadow_start_color`, which defines the start color of the gradient and `shadow_end_color`, which defines the end color of the gradient.
+
+> **Tip** : To get a solid color shadow, just put the same value in `shadow_start_color` and `shadow_end_color` attributes.
+
+#### XML
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsWrapper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90B494">
+
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_chrome"
+            app:shadow_endColor="#00000000"
+            app:shadow_startColor="#88000000" />
+
+</com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
+```
+
+#### Result
+
+<img src="/screens/example_5.png">
+
 ## Example 6 (Single View, Multiple Shadows)
 
 ## Example 7 (Non-Transparent background)
