@@ -192,11 +192,11 @@ Shadows are filled by a linear gradient, so shadow color is built of two compont
     android:background="#90B494">
 
     <com.sdsmdg.harjot.longshadows.LongShadowsImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_chrome"
-            app:shadow_endColor="#00000000"
-            app:shadow_startColor="#88000000" />
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_chrome"
+        app:shadow_endColor="#00000000"
+        app:shadow_startColor="#88000000" />
 
 </com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
 ```
@@ -206,6 +206,35 @@ Shadows are filled by a linear gradient, so shadow color is built of two compont
 <img src="/screens/example_5.png">
 
 ## Example 6 (Single View, Multiple Shadows)
+
+The library offers multiple long shadows for a single view. To use multiple shadows, just pass a comma separated string of shadow angles of you choice in the `shadow_angle` attribute.
+
+> **e.g.** `app:shadow_angle="45, 90, 135"`. This will create 3 shadows at angle *45*, *90* and *135* degrees.
+
+> You can also specify different lengths for each shadow in a similar way, by passing a comma separated string of shadow lengths in the `shadow_length` attribute.<br><br> **e.g.** <br> `app:shadow_angle="45, 90, 135"` <br>`app:shadow_length="200, 300, 400"`<br><br> This will create 3 shadows at angles *45*, *90* and *135*, with shadows lengths, *200*, *300* and *400* respectively.
+
+#### XML
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsWrapper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D8D4F2">
+
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_circle"
+        app:shadow_angle="45, 90, 135"
+        app:shadow_length="200, 300, 400" />
+
+</com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
+```
+
+#### Result
+
+<img src="/screens/example_6.png">
 
 ## Example 7 (Non-Transparent background)
 
