@@ -372,13 +372,15 @@ Firstly, eligible child views (`LongShadowsImageView`, `LongShadowsTextView` or 
 
 # Credits
 
-1. **Piyush Mehrotra** ([Codeforces](http://codeforces.com/profile/hm_98), [CodeChef](https://www.codechef.com/users/hm_98), [Github](https://github.com/hm98) ) : Implementation of algorithm to find the shadow paths from pixel array. This library would not have been possible without his talent and hard work.
+1. **Piyush Mehrotra** ( [Codeforces](http://codeforces.com/profile/hm_98), [CodeChef](https://www.codechef.com/users/hm_98), [Github](https://github.com/hm98) ) : Implementation of algorithm to find the shadow paths from pixel array. This library would not have been possible without his talent and hard work.
 
-2. [Feather Icons](https://feathericons.com/) : For providing the vectors used in examples.
+2. [Yaroslav](https://github.com/yarolegovich) : Implementation of asynchronous calculations and shadow animations in [MaterialShadows](https://github.com/harjot-oberai/MaterialShadows), which was directly reused in this library.
 
-3. [WorldVectorLogo](https://worldvectorlogo.com/) : For providing some more vectors for the examples.
+3. [Feather Icons](https://feathericons.com/) : For providing the vectors used in examples.
 
-4. [StackOverflow](https://stackoverflow.com/) : Nobody knows everything :)
+4. [WorldVectorLogo](https://worldvectorlogo.com/) : For providing some more vectors for the examples.
+
+5. [StackOverflow](https://stackoverflow.com/) : Nobody knows everything :)
 
 # License
 <b>Long-Shadows</b> is licensed under `MIT license`. View [license](LICENSE.md).
