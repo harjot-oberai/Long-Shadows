@@ -238,6 +238,47 @@ The library offers multiple long shadows for a single view. To use multiple shad
 
 ## Example 7 (Non-Transparent background)
 
+So far we have seen that the library generates long shadows for all non-transparent parts in an image, but what if we want the image to have a non-transparent background, but only create shadow for what is inside the image and not the background. This is where `background_transparent` and `background_color` attributes come into play.
+
+If your image has say a white background, with some character in the middle and we only want the shadow for the middle character and completely avoid shadow for the white background, you can set `background_transparent` as `false`, indicating the background contains some color other that 0 (transparent), and `background_color` as `#FFFFFF`, indicating that we need to treat all white pixels as background and not generate shadow for them.
+
+> **Note** : Transparent pixels are always counted as background and never generate any shadow of their own. This is useful in cases where the background of your image's background is a circle or a rounded-rectangle with white color, where we have to count both transparent pixels and white pixel as background.
+
+<img src="/screens/example_7_google_icon.png" align="right" width="100">
+
+**e.g.** Lets say we want to display the google icon which has a white rectangle that acts as the background of the letter `G`.<br> Lets see how can we generate long shadow only for the letter and avoid building the shadow for the rectangular white background.
+
+> For this example we will create a circular shape drawable `rectangular_white_background.xml` which will act as the background to icon vector `ic_google_icon_colored.xml`. You can find these resource files [here](/app/src/main/res/drawable/)
+
+#### XML
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsWrapper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DD6E42">
+
+    <com.sdsmdg.harjot.longshadows.LongShadowsImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/rectangular_white_background"
+        android:padding="20dp"
+        android:src="@drawable/ic_google_icon_colored"
+        app:background_color="#FFFFFF"
+        app:background_transparent="false" />
+
+</com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
+```
+
+#### Result
+
+<img src="/screens/example_7.png">
+
+> **Note** : As much as I want people to use this feature, I should warn that this won't work in several cases as android internally applies anti alias on images/bitmaps while scaling and this leads to some random colors around the boundaries. Since the algorithm checks for only one particular color, these new colors will be treated as contours and shadow will be generated, leading to unexpected results.<br><br>
+So if you want to have a backround, I would suggest to draw the background in a different View and overlay this View with `LongShadowsView`/`LongShadowsImageView`/`LongShadowsTextView`, containing only the part you want to generate the shadow for.<br><br>
+If you are creating a custom view and want to draw a bitmap and use this feature, you may set `Paint#setFilterBitmap()` to `false`. This will disable anti aliasing.
+
 # Custom Views and ViewGroups
 
 # Documentation
