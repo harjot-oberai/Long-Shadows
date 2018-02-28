@@ -22,7 +22,6 @@
 
   * [Features](#features)
   * [Usage](#usage)
-  * [How does this work ?](#how-does-this-work-)
   * [Examples](#examples)
     * [Example 1 (Basic)](#example-1-basic)
   	* [Example 2 (Shadow Angle)](#example-2-shadow-angle)
@@ -32,6 +31,7 @@
   	* [Example 6 (Single View, Multiple Shadows)](#example-6-single-view-multiple-shadows)
   	* [Example 7 (Non-Transparent background)](#example-7-non-transparent-background)
   * [Custom Views and ViewGroups](#using-long-shadows-with-custom-views-and-custom-viewgroups)
+  * [How does this work ?](#how-does-this-work-)
   * [Documentation](#documentation)
   * [Limitations](#limitations)
   * [Credits](#credits)
@@ -53,9 +53,6 @@ dependencies {
       compile 'com.sdsmdg.harjot:longshadows:0.2'
 }
 ```
-
-# How does this work ?
-Magic !
 
 # Examples
 Here are some examples to provide you a head start with using this library. The examples are selected to demonstrate almost all the basic features provided by the library. So lets start !
@@ -276,8 +273,8 @@ If your image has say a white background, with some character in the middle and 
 <img src="/screens/example_7.png">
 
 > **Note** : As much as I want people to use this feature, I should warn that this won't work in several cases as android internally applies anti alias on images/bitmaps while scaling and this leads to some random colors around the boundaries. Since the algorithm checks for only one particular color, these new colors will be treated as contours and shadow will be generated, leading to unexpected results.<br><br>
-So if you want to have a backround, I would suggest to draw the background in a different View and overlay this View with `LongShadowsView`/`LongShadowsImageView`/`LongShadowsTextView`, containing only the part you want to generate the shadow for.<br><br>
-If you are creating a custom view and want to draw a bitmap and use this feature, you may set `Paint#setFilterBitmap()` to `false`. This will disable anti aliasing.
+So if you want to have a background, I would suggest to draw the background in a different View and overlay this View with `LongShadowsView`/`LongShadowsImageView`/`LongShadowsTextView`, containing only the part you want to generate the shadow for.<br><br>
+If you are creating a custom view and want to draw a bitmap and use this feature, you may set `Paint#setFilterBitmap()` to `false`. This will disable anti aliasing for the bitmap.
 
 # Custom Views and ViewGroups
 
@@ -338,6 +335,9 @@ See the example below :
 
 </com.sdsmdg.harjot.longshadows.LongShadowsFrameLayoutWrapper>
 ```
+
+# How does this work ?
+Magic !
 
 # Documentation
 
