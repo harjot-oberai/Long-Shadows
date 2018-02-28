@@ -281,6 +281,64 @@ If you are creating a custom view and want to draw a bitmap and use this feature
 
 # Custom Views and ViewGroups
 
+### Custom View
+If you want your own custom view to be able to generate long shadows, just extend `LongShadowsView` instead of `View` while creating the custom view.<br>That's it :)
+```java
+public class CustomLongShadowsView extends LongShadowsView {
+
+    public CustomLongShadowsView(Context context) {
+        super(context);
+    }
+
+    public CustomLongShadowsView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CustomLongShadowsView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        /*
+        * Draw whatever you want.
+        */
+
+    }
+}
+```
+
+> **Note** : The custom view must be inside LongShadowsWrapper for the shadow to be generated.
+
+### Custom View Group
+
+`LongShadowsWrapper` and `LongShadowsFrameLayoutWrapper` are two custom view groups provided by library that extend `RelativeLayout` and `FrameLayout` respectively. These custom view groups recursively search for eligible views for long shadow generation, even inside nested view groups.<br>
+So if you have a custom view group, inside which you want to place your `LongShadowsImageView` or `LongShadowsTextView`, then you can just make this view group a direct child of `LongShadowsWrapper` or `LongShadowsFrameLayoutWrapper` and the library will take care of everything else.
+
+See the example below : 
+
+```xml
+<com.sdsmdg.harjot.longshadows.LongShadowsFrameLayoutWrapper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.abc.YourCustomViewGroup
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Place your views here -->
+
+    </com.example.abc.YourCustomViewGroup>
+
+</com.sdsmdg.harjot.longshadows.LongShadowsFrameLayoutWrapper>
+```
+
 # Documentation
 
 # Limitations
