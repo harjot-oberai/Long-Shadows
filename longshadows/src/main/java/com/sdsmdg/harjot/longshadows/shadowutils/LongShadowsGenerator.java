@@ -133,7 +133,7 @@ public class LongShadowsGenerator {
     }
 
     private void setLongShadowAtPosition(int childIndex) {
-        ShadowPath[] shadowPaths = getViewPathWithOffsetAt(childIndex);
+        ShadowPath[] shadowPaths =  viewShadowPaths.get(childIndex);
         if (shadowPaths == null) {
             //Path calculation is still in progress
             return;
@@ -191,17 +191,6 @@ public class LongShadowsGenerator {
         animator.start();
     }
 
-    private ShadowPath[] getViewPathWithOffsetAt(int position) {
-        ShadowPath[] noOffsetPath = viewShadowPaths.get(position);
-//        if (noOffsetPath == null) {
-//            return null;
-//        }
-//        Path path = new Path();
-//        path.set(noOffsetPath);
-//        path.offset(offsetX, offsetY);
-        return noOffsetPath;
-    }
-
     private void calculateAndRenderShadowAsync(final View view, final int pos) {
         final Future[] future = new Future[1];
         future[0] = workerPool.submit(new Runnable() {
@@ -231,7 +220,7 @@ public class LongShadowsGenerator {
             return;
         }
 
-        ShadowPath[] shadowPaths = getShadowPaths(view);
+        ShadowPath[] shadowPaths = getShadowPathsForView(view);
 
         synchronized (TASKS_LOCK) {
             if (Thread.currentThread().isInterrupted()) {
@@ -241,7 +230,7 @@ public class LongShadowsGenerator {
         }
     }
 
-    private ShadowPath[] getShadowPaths(View view) {
+    private ShadowPath[] getShadowPathsForView(View view) {
         if (view instanceof LongShadowsImageView) {
             LongShadowsImageView longShadowsImageView = (LongShadowsImageView) view;
 
@@ -277,7 +266,7 @@ public class LongShadowsGenerator {
                 }
             }
 
-            ShadowPath[] paths = getContours(intArray,
+            ShadowPath[] paths = getShadowPaths(intArray,
                     width,
                     height,
                     angles_array,
@@ -327,7 +316,7 @@ public class LongShadowsGenerator {
                 }
             }
 
-            ShadowPath[] paths = getContours(intArray,
+            ShadowPath[] paths = getShadowPaths(intArray,
                     width,
                     height,
                     angles_array,
@@ -377,7 +366,7 @@ public class LongShadowsGenerator {
                 }
             }
 
-            ShadowPath[] paths = getContours(intArray,
+            ShadowPath[] paths = getShadowPaths(intArray,
                     width,
                     height,
                     angles_array,
@@ -434,6 +423,6 @@ public class LongShadowsGenerator {
         }
     }
 
-    public native ShadowPath[] getContours(int arr[], int width, int height, float[] angles_array, int numAngles, int[] shadowLengths, int backgroundColor);
+    public native ShadowPath[] getShadowPaths(int arr[], int width, int height, float[] angles_array, int numAngles, int[] shadowLengths, int backgroundColor);
 
 }

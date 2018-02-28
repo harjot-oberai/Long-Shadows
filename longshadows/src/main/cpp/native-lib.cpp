@@ -648,8 +648,8 @@ pair<int, int> getClosestPointToLight(vector<pair<int, int> > points, pair<int, 
 }
 
 ShadowPath
-getFinalPathPointsFromContour(vector<pair<int, int> > points, int width, int height, float angle,
-                              int shadowLength, pair<int, int> ref) {
+getShadowPathsFromContour(vector<pair<int, int> > points, int width, int height, float angle,
+                          int shadowLength, pair<int, int> ref) {
 
     __android_log_print(ANDROID_LOG_DEBUG, "POINTS", "size_1 : %lu", points.size());
 
@@ -727,7 +727,7 @@ pair<int, int> getReferencePointFromContour(vector<pair<int, int> > contour, flo
 
 extern "C"
 JNIEXPORT jobjectArray JNICALL
-Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
+Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getShadowPaths(
         JNIEnv *env,
         jobject,
         jintArray arr,
@@ -766,10 +766,10 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getContours(
             __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d.%d ", i + 1, j + 1, 0);
 
             shadowPaths.push_back(
-                    getFinalPathPointsFromContour(ans[i], width, height, angles_array[j],
-                                                  shadow_lengths[j],
-                                                  getReferencePointFromContour(ans[i],
-                                                                               angles_array[j])));
+                    getShadowPathsFromContour(ans[i], width, height, angles_array[j],
+                                              shadow_lengths[j],
+                                              getReferencePointFromContour(ans[i],
+                                                                           angles_array[j])));
 
             __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d%d ", i + 1, j + 1, 1);
         }
