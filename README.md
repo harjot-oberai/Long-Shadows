@@ -364,7 +364,7 @@ Firstly, eligible child views (`LongShadowsImageView`, `LongShadowsTextView` or 
 
 7. Finally the `Path` object created is rendered and filled with a `LinearGradient` with starting and end points as defined in the `ShadowPath` object.
 
-**P.S.** : All the algorithms related used in the native code have been implemented by my friend [Piyush Mehrotra](https://github.com/hm98)
+**P.S.** : All the algorithms used in the native code have been implemented by my friend [Piyush Mehrotra](https://github.com/hm98).
 
 # Documentation
 
@@ -374,9 +374,9 @@ Firstly, eligible child views (`LongShadowsImageView`, `LongShadowsTextView` or 
 
 1. **Piyush Mehrotra** ([Codeforces](http://codeforces.com/profile/hm_98), [CodeChef](https://www.codechef.com/users/hm_98), [Github](https://github.com/hm98) ) : Implementation of algorithm to find the shadow paths from pixel array. This library would not have been possible without his talent and hard work.
 
-2. [Feather Icons](https://feathericons.com/) : For providing the vectos used in examples.
+2. [Feather Icons](https://feathericons.com/) : For providing the vectors used in examples.
 
-3. [WorldVectorLogo](https://worldvectorlogo.com/) : For provding some more vectors for the examples.
+3. [WorldVectorLogo](https://worldvectorlogo.com/) : For providing some more vectors for the examples.
 
 4. [StackOverflow](https://stackoverflow.com/) : Nobody knows everything :)
 
