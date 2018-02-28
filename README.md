@@ -337,13 +337,48 @@ See the example below :
 ```
 
 # How does this work ?
-Magic !
+
+The `LongShadowsWrapper` is an extension of `Relative Layout`. The `LongShadowsFrameLayoutWrapper` is an extension of `FrameLayout`. Use any one of them as per your convenience.
+
+Firstly, eligible child views (`LongShadowsImageView`, `LongShadowsTextView` or extensions of `LongShdaowsView`) are found using a recursive strategy. Once an eligible view is found it goes through the following process to generate the long shadow.
+
+1. First a bitmap is generated from the drawing cache of the View. The bitmap is converted into an integer array of pixels and passed on to the native function `getShadowPaths(...)` along with width, height and some other parameters.
+
+2. The native function first generates contours using the `contours` function. The `contours` function returns vector points which are on the boundary of an object. This is achieved by doing BFS(Breath First Search) on the grid and marking the points which are on the boundary and were encountered in the BFS run.
+ 
+3. Each of the contour is then passed to `getShadowPathsFromContour` function, which internally calls `boundaryPath` function. The `boundaryPath` function returns the **Front Polar Path** of the object. **Front Polar Path** is the set of points which will be directly visible from the Light Source, in polar order. We need the points in Polar Order, so that we can remove darkening of some regions due to overlapping, which will result in some dark regions during rendering due to alpha blending.
+ 
+    3.1. To find the **Front polar order**, we first extract the outer boundary of an object because for objects like 'O', there are two boundaries. This is done through `getOuterBoundary` function. In this function, we do BFS travesal from a point on outer boundary. So all the points which are not visited/marked after the BFS travesal belong to the inner boundary.
+ 
+    3.2. Now we have the Outer Boundary of the object. Now we will seperate the Boundary which will be visible by the Light source(lets name this boundary as Front Path) from the Overall Boundary. Also, notice that the Front Path will begin from the Upper tangent to the Lower tangent (If tangents are drawn from the Light Source to the Object). So we again apply BFS from Upper Tangent to Lower Tangent. This is done in the function `getPath`.
+ 
+    3.3. We still cannot be sure that the path returned by getPath is the Front Path, as there are 2 paths from the Upper Tangent to the Lower Tangent. So we compare the Area formed by the Light Source and the 2 Paths. The one with the less area will be the Front Path. `getArea` function calculates the area of the figure formed by the Light Source and the path by using Shoelace Formulae.
+ 
+    3.4. Corner Cases handling - We have used `atan` function to get the angle, inorder to sort the points in Polar Order. But `atan` function is discountinuos. So we have carefully handled the discountinuity of the function in the `getPolarOrder` function.
+
+4. Once we have the **Front Polar Path**, we translate its end points according to the `shadow length` and `shadow angle`.
+
+5. Now all these points are collected and converted into a structure `ShadowPath`. The `getShadowPathsFromContour` functions returns one `ShadowPath` object for every contour.
+
+6. All `ShadowPath` objects are passed back to Java, where `Path` objects are created using the points.
+
+7. Finally the `Path` object created is rendered and filled with a `LinearGradient` with starting and end points as defined in the `ShadowPath` object.
+
+**P.S.** : All the algorithms related used in the native code have been implemented by my friend [Piyush Mehrotra](https://github.com/hm98)
 
 # Documentation
 
 # Limitations
 
 # Credits
+
+1. **Piyush Mehrotra** ([Codeforces](http://codeforces.com/profile/hm_98), [CodeChef](https://www.codechef.com/users/hm_98), [Github](https://github.com/hm98) ) : Implementation of algorithm to find the shadow paths from pixel array. This library would not have been possible without his talent and hard work.
+
+2. [Feather Icons](https://feathericons.com/) : For providing the vectos used in examples.
+
+3. [WorldVectorLogo](https://worldvectorlogo.com/) : For provding some more vectors for the examples.
+
+4. [StackOverflow](https://stackoverflow.com/) : Nobody knows everything :)
 
 # License
 <b>Long-Shadows</b> is licensed under `MIT license`. View [license](LICENSE.md).
