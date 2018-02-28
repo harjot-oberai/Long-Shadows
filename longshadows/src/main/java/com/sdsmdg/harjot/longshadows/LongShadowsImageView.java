@@ -98,16 +98,35 @@ public class LongShadowsImageView extends ImageView {
     }
 
     @Override
+    public void draw(Canvas canvas) {
+
+        if (backgroundTransparent) {
+            Log.d("TIME", "RENDER_START");
+            if (shadowPaths != null && shadowPaths.size() > 0) {
+                for (ShadowPath shadowPath : shadowPaths) {
+                    shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
+                    canvas.drawPath(shadowPath.getPath(), shadowPaint);
+                }
+            }
+            Log.d("TIME", "RENDER_FINISH");
+        }
+
+        super.draw(canvas);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
 
-        Log.d("TIME", "RENDER_START");
-        if (shadowPaths != null && shadowPaths.size() > 0) {
-            for (ShadowPath shadowPath : shadowPaths) {
-                shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
-                canvas.drawPath(shadowPath.getPath(), shadowPaint);
+        if (!backgroundTransparent) {
+            Log.d("TIME", "RENDER_START");
+            if (shadowPaths != null && shadowPaths.size() > 0) {
+                for (ShadowPath shadowPath : shadowPaths) {
+                    shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
+                    canvas.drawPath(shadowPath.getPath(), shadowPaint);
+                }
             }
+            Log.d("TIME", "RENDER_FINISH");
         }
-        Log.d("TIME", "RENDER_FINISH");
 
         super.onDraw(canvas);
 
