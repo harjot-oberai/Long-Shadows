@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdsmdg.harjot.longshadows.Constants;
+import com.sdsmdg.harjot.longshadows.LongShadowsFrameLayoutWrapper;
 import com.sdsmdg.harjot.longshadows.LongShadowsImageView;
 import com.sdsmdg.harjot.longshadows.LongShadowsTextView;
 import com.sdsmdg.harjot.longshadows.LongShadowsView;
@@ -90,9 +91,16 @@ public class LongShadowsGenerator {
 
             if (child instanceof LongShadowsWrapper) {
                 continue;
+            } else if (child instanceof LongShadowsFrameLayoutWrapper) {
+                continue;
             } else if (child instanceof ViewGroup) {
-                ((ViewGroup) child).setClipChildren(((LongShadowsWrapper) viewGroup).isShouldClipChildren());
-                ((ViewGroup) child).setClipToPadding(((LongShadowsWrapper) viewGroup).isShouldClipToPadding());
+                if (viewGroup instanceof LongShadowsWrapper) {
+                    ((ViewGroup) child).setClipChildren(((LongShadowsWrapper) viewGroup).isShouldClipChildren());
+                    ((ViewGroup) child).setClipToPadding(((LongShadowsWrapper) viewGroup).isShouldClipToPadding());
+                } else if (viewGroup instanceof LongShadowsFrameLayoutWrapper) {
+                    ((ViewGroup) child).setClipChildren(((LongShadowsFrameLayoutWrapper) viewGroup).isShouldClipChildren());
+                    ((ViewGroup) child).setClipToPadding(((LongShadowsFrameLayoutWrapper) viewGroup).isShouldClipToPadding());
+                }
                 viewArrayList.addAll(getAllChildren((ViewGroup) child));
             } else {
                 viewArrayList.add(child);
@@ -400,15 +408,28 @@ public class LongShadowsGenerator {
 
         @Override
         public void run() {
-            if (((LongShadowsWrapper) viewGroup).isAttached()) {
-                viewShadowPaths.put(viewPos, shadowPaths);
-                if (shouldShowWhenAllReady) {
-                    if (viewShadowPaths.size() == childrenWithShadow) {
-                        updateShadows(POS_UPDATE_ALL);
+            if (viewGroup instanceof LongShadowsWrapper) {
+                if (((LongShadowsWrapper) viewGroup).isAttached()) {
+                    viewShadowPaths.put(viewPos, shadowPaths);
+                    if (shouldShowWhenAllReady) {
+                        if (viewShadowPaths.size() == childrenWithShadow) {
+                            updateShadows(POS_UPDATE_ALL);
+                        }
+                        return;
                     }
-                    return;
+                    updateShadows(viewPos);
                 }
-                updateShadows(viewPos);
+            } else if (viewGroup instanceof LongShadowsFrameLayoutWrapper) {
+                if (((LongShadowsFrameLayoutWrapper) viewGroup).isAttached()) {
+                    viewShadowPaths.put(viewPos, shadowPaths);
+                    if (shouldShowWhenAllReady) {
+                        if (viewShadowPaths.size() == childrenWithShadow) {
+                            updateShadows(POS_UPDATE_ALL);
+                        }
+                        return;
+                    }
+                    updateShadows(viewPos);
+                }
             }
         }
     }

@@ -2,12 +2,18 @@ package com.sdsmdg.harjot.longshadows;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.sdsmdg.harjot.longshadows.shadowutils.LongShadowsGenerator;
 
-public class LongShadowsWrapper extends RelativeLayout {
+/**
+ * Created by Harjot on 2/28/2018.
+ */
+
+public class LongShadowsFrameLayoutWrapper extends FrameLayout {
 
     LongShadowsGenerator longShadowsGenerator;
 
@@ -21,39 +27,38 @@ public class LongShadowsWrapper extends RelativeLayout {
     boolean shouldClipChildren = Constants.DEFAULT_SHOULD_CLIP_CHILDREN;
     boolean shouldClipToPadding = Constants.DEFAULT_SHOULD_CLIP_TO_PADDING;
 
-    public LongShadowsWrapper(Context context) {
+    public LongShadowsFrameLayoutWrapper(@NonNull Context context) {
         super(context);
-        init();
     }
 
-    public LongShadowsWrapper(Context context, AttributeSet attrs) {
+    public LongShadowsFrameLayoutWrapper(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initXMLAttrs(context, attrs);
         init();
     }
 
-    public LongShadowsWrapper(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LongShadowsFrameLayoutWrapper(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initXMLAttrs(context, attrs);
         init();
     }
 
     void initXMLAttrs(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LongShadowsWrapper);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LongShadowsFrameLayoutWrapper);
         final int N = a.getIndexCount();
         for (int i = 0; i < N; ++i) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.LongShadowsWrapper_calculateAsync) {
+            if (attr == R.styleable.LongShadowsFrameLayoutWrapper_calculateAsync) {
                 shouldCalculateAsync = a.getBoolean(attr, Constants.DEFAULT_CALCULATE_ASYNC);
-            } else if (attr == R.styleable.LongShadowsWrapper_showWhenAllReady) {
+            } else if (attr == R.styleable.LongShadowsFrameLayoutWrapper_showWhenAllReady) {
                 shouldShowWhenAllReady = a.getBoolean(attr, Constants.DEFAULT_SHOW_WHEN_ALL_READY);
-            } else if (attr == R.styleable.LongShadowsWrapper_shouldClipChildren) {
+            } else if (attr == R.styleable.LongShadowsFrameLayoutWrapper_shouldClipChildren) {
                 shouldClipChildren = a.getBoolean(attr, Constants.DEFAULT_SHOULD_CLIP_CHILDREN);
-            } else if (attr == R.styleable.LongShadowsWrapper_shouldClipToPadding) {
+            } else if (attr == R.styleable.LongShadowsFrameLayoutWrapper_shouldClipToPadding) {
                 shouldClipToPadding = a.getBoolean(attr, Constants.DEFAULT_SHOULD_CLIP_TO_PADDING);
-            } else if (attr == R.styleable.LongShadowsWrapper_animateShadow) {
+            } else if (attr == R.styleable.LongShadowsFrameLayoutWrapper_animateShadow) {
                 shouldAnimateShadow = a.getBoolean(attr, Constants.DEFAULT_ANIMATE_SHADOW);
-            } else if (attr == R.styleable.LongShadowsWrapper_animationDuration) {
+            } else if (attr == R.styleable.LongShadowsFrameLayoutWrapper_animationDuration) {
                 animationDuration = a.getInteger(attr, Constants.DEFAULT_ANIMATION_TIME);
             }
         }

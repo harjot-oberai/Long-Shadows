@@ -11,6 +11,13 @@
     <attr name="background_transparent" format="boolean" />
     <attr name="background_color" format="color" />
 
+    <attr name="calculateAsync" format="boolean" />
+    <attr name="showWhenAllReady" format="boolean" />
+    <attr name="shouldClipChildren" format="boolean" />
+    <attr name="shouldClipToPadding" format="boolean" />
+    <attr name="animateShadow" format="boolean" />
+    <attr name="animationDuration" format="integer" />
+
     <declare-styleable name="LongShadowsImageView">
         <attr name="shadow_angle" />
         <attr name="shadow_startColor" />
@@ -48,10 +55,21 @@
     </declare-styleable>
 
     <declare-styleable name="LongShadowsWrapper">
-        <attr name="calculateAsync" format="boolean" />
-        <attr name="showWhenAllReady" format="boolean" />
-        <attr name="animateShadow" format="boolean" />
-        <attr name="animationDuration" format="integer" />
+        <attr name="calculateAsync"/>
+        <attr name="showWhenAllReady"/>
+        <attr name="shouldClipChildren"/>
+        <attr name="shouldClipToPadding"/>
+        <attr name="animateShadow"/>
+        <attr name="animationDuration"/>
+    </declare-styleable>
+
+    <declare-styleable name="LongShadowsFrameLayoutWrapper">
+        <attr name="calculateAsync"/>
+        <attr name="showWhenAllReady"/>
+        <attr name="shouldClipChildren"/>
+        <attr name="shouldClipToPadding" />
+        <attr name="animateShadow"/>
+        <attr name="animationDuration"/>
     </declare-styleable>
 
 </resources>

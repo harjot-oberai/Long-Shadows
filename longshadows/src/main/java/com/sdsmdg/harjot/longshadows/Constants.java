@@ -30,6 +30,10 @@ public class Constants {
 
     public static final boolean DEFAULT_CALCULATE_ASYNC = true;
 
+    public static final boolean DEFAULT_SHOULD_CLIP_CHILDREN = false;
+
+    public static final boolean DEFAULT_SHOULD_CLIP_TO_PADDING = false;
+
     public static final boolean DEFAULT_ANIMATE_SHADOW = true;
 
     public static final int DEFAULT_ANIMATION_TIME = 300;
