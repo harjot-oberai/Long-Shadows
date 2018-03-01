@@ -328,43 +328,6 @@ vector<pair<int, int> > getPolarOrder(vector<pair<int, int> > path, pair<int, in
 long double getArea(vector<pair<int, int> > path, pair<int, int> ref) {
 
     path = getPolarOrder(path, ref);
-    /*vector<pair<long double, pair<int, int> > > polarOrder;
-    polarOrder.clear();
-
-    long double angle;
-    long double H, B;
-
-    int minx = 1000000009, maxx = -1000000009;
-
-    for (int i = 0; i < path.size(); i++) {
-        minx = min(minx, path[i].first);
-        maxx = max(maxx, path[i].first);
-    }
-
-    // LOG
-
-    bool flag = false;
-
-    if (ref.first >= minx && ref.first <= maxx)
-        flag = true;
-
-    for (int i = 0; i < path.size(); i++) {
-        H = path[i].second - ref.second;
-        B = path[i].first - ref.first;
-
-        angle = atan(H / B);
-
-        if (angle > 0.0 && flag)
-            angle -= PI;
-
-        polarOrder.push_back(make_pair(angle, path[i]));
-    }
-
-    sort(polarOrder.begin(), polarOrder.end());
-
-    path.clear();
-    for (int i = 0; i < polarOrder.size(); i++)
-        path.push_back(polarOrder[i].second);*/
 
     long double area = 0.0;
     for (int i = 1; i < path.size(); i++)
@@ -372,9 +335,6 @@ long double getArea(vector<pair<int, int> > path, pair<int, int> ref) {
 
     area = area / 2.0;
     area = abs(area);
-
-    __android_log_print(ANDROID_LOG_DEBUG, "AREA_DEBUG", "AREA %Lf Point %d %d", area,
-                        path[path.size() / 2].first, path[path.size() / 2].second);
 
     return area;
 }
@@ -651,8 +611,6 @@ ShadowPath
 getShadowPathsFromContour(vector<pair<int, int> > points, int width, int height, float angle,
                           int shadowLength, pair<int, int> ref) {
 
-    __android_log_print(ANDROID_LOG_DEBUG, "POINTS", "size_1 : %lu", points.size());
-
     vector<pair<int, int> > boundary_front_polar = boundaryPath(points, ref, 1);
 
     int boundary_front_polar_size = boundary_front_polar.size();
@@ -741,21 +699,13 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getShadowPat
     vector<vector<pair<int, int> > > ans;
     ans.clear();
 
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 0 ");
-
     jint *c_array = (env)->GetIntArrayElements(arr, NULL);
 
     jfloat *angles_array = (env)->GetFloatArrayElements(angles, NULL);
 
     jint *shadow_lengths = (env)->GetIntArrayElements(shadowLengths, NULL);
 
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 1 ");
-
     ans = contours(env, c_array, width, height, backgroundColor);
-
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 2 ");
-
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3 ");
 
     vector<ShadowPath> shadowPaths;
 
@@ -763,19 +713,13 @@ Java_com_sdsmdg_harjot_longshadows_shadowutils_LongShadowsGenerator_getShadowPat
 
         for (int j = 0; j < numAngles; j++) {
 
-            __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d.%d ", i + 1, j + 1, 0);
-
             shadowPaths.push_back(
                     getShadowPathsFromContour(ans[i], width, height, angles_array[j],
                                               shadow_lengths[j],
                                               getReferencePointFromContour(ans[i],
                                                                            angles_array[j])));
-
-            __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 3.%d.%d%d ", i + 1, j + 1, 1);
         }
     }
-
-    __android_log_print(ANDROID_LOG_DEBUG, "TIME_CPP", " 4 ");
 
     return convertToObjectArray(env, shadowPaths);
 

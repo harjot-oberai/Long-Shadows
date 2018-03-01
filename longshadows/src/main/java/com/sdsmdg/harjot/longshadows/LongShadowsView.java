@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -104,14 +103,12 @@ public class LongShadowsView extends View {
     public void draw(Canvas canvas) {
 
         if (backgroundTransparent) {
-            Log.d("TIME", "RENDER_START");
             if (shadowPaths != null && shadowPaths.size() > 0) {
                 for (ShadowPath shadowPath : shadowPaths) {
                     shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
                     canvas.drawPath(shadowPath.getPath(), shadowPaint);
                 }
             }
-            Log.d("TIME", "RENDER_FINISH");
         }
 
         super.draw(canvas);
@@ -121,14 +118,12 @@ public class LongShadowsView extends View {
     protected void onDraw(Canvas canvas) {
 
         if (!backgroundTransparent) {
-            Log.d("TIME", "RENDER_START");
             if (shadowPaths != null && shadowPaths.size() > 0) {
                 for (ShadowPath shadowPath : shadowPaths) {
                     shadowPaint.setShader(Utils.generateLinearGradient(shadowPath, shadowStartColor, shadowEndColor));
                     canvas.drawPath(shadowPath.getPath(), shadowPaint);
                 }
             }
-            Log.d("TIME", "RENDER_FINISH");
         }
 
         super.onDraw(canvas);
