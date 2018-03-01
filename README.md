@@ -236,9 +236,9 @@ The library offers multiple long shadows for a single view. To use multiple shad
 
 ## Example 7 (Non-Transparent background)
 
-So far we have seen that the library generates long shadows for all non-transparent parts in an image, but what if we want the image to have a non-transparent background, but only create shadow for what is inside the image and not the background. This is where `background_transparent` and `background_color` attributes come into play.
+So far we have seen that the library generates long shadows for all non-transparent parts in an image, but what if we want the image to have a non-transparent background, but only create shadow for what is inside the image and not the background. This is where `background_transparent` and `background_color_to_ignore` attributes come into play.
 
-If your image has say a white background, with some character in the middle and we only want the shadow for the middle character and completely avoid shadow for the white background, you can set `background_transparent` as `false`, indicating the background contains some color other that 0 (transparent), and `background_color` as `#FFFFFF`, indicating that we need to treat all white pixels as background and not generate shadow for them.
+If your image has say a white background, with some character in the middle and we only want the shadow for the middle character and completely avoid shadow for the white background, you can set `background_transparent` as `false`, indicating the background contains some color other that 0 (transparent), and `background_color_to_ignore` as `#FFFFFF`, indicating that we need to treat all white pixels as background and not generate shadow for them.
 
 > **Note** : Transparent pixels are always counted as background and never generate any shadow of their own. This is useful in cases where the background of your image's background is a circle or a rounded-rectangle with white color, where we have to count both transparent pixels and white pixel as background.
 
@@ -263,7 +263,7 @@ If your image has say a white background, with some character in the middle and 
         android:background="@drawable/rectangular_white_background"
         android:padding="20dp"
         android:src="@drawable/ic_google_icon_colored"
-        app:background_color="#FFFFFF"
+        app:background_color_to_ignore="#FFFFFF"
         app:background_transparent="false" />
 
 </com.sdsmdg.harjot.longshadows.LongShadowsWrapper>
@@ -360,7 +360,7 @@ See the example below :
 
 The `LongShadowsWrapper` is an extension of `Relative Layout`. The `LongShadowsFrameLayoutWrapper` is an extension of `FrameLayout`. Use any one of them as per your convenience.
 
-Firstly, eligible child views (`LongShadowsImageView`, `LongShadowsTextView` or extensions of `LongShdaowsView`) are found using a recursive strategy. Once an eligible view is found it goes through the following process to generate the long shadow.
+Firstly, eligible child views (`LongShadowsImageView`, `LongShadowsTextView` or extensions of `LongShadowsView`) are found using a recursive strategy. Once an eligible view is found it goes through the following process to generate the long shadow.
 
 1. First a bitmap is generated from the drawing cache of the View. The bitmap is converted into an integer array of pixels and passed on to the native function `getShadowPaths(...)` along with width, height and some other parameters.
 
@@ -387,6 +387,31 @@ Firstly, eligible child views (`LongShadowsImageView`, `LongShadowsTextView` or 
 **P.S.** : All the algorithms used in the native code have been implemented by my friend [Piyush Mehrotra](https://github.com/hm98).
 
 # Documentation
+
+Attributes for `LongShadowsWrapper` and `LongShadowsFrameLayoutWrapper`
+
+|XML attribute         |Java set methods               |Description                                 | Default Value     |
+|----------------------|-------------------------------|--------------------------------------------|-------------------|
+|shouldClipChildren    |setShouldClipChildren(...)     |Set whether to clip children to bounds      |false              |
+|shouldClipToPadding   |setShouldClipToPadding(...)    |Set whether to clip children to padding     |false              |
+|calculateAsync        |setShouldCalculateAsync(...)   |Set the flag for async shadow calculations. |true               |
+|showWhenAllReady      |setShowShadowsWhenAllReady(...)|Set the flag for showing all shadows after all calculations are over|true|
+|animateShadow         |setShouldAnimateShadow(...)    |Set the flag for shadow animation           |true               |
+|animationDuration     |setAnimationDuration(...)      |Set the value of shadow animation duration. |300ms              |
+
+Attributes for `LongShadowsImageView`, `LongShadowsTextView` and `LongShadowsView`
+
+|XML attribute         |Java set methods              |Description                                | Type          | Default Value     |
+|----------------------|------------------------------|-------------------------------------------|---------------|-------------------|
+|shadow_angle           |setShadowAngle(...)          |Set the shadow angle for the view          |String         |"45.0f"            |
+|shadow_length          |setShadowLength(...)         |Set the shadow length for the view         |String         |"400"              |
+|shadow_startColor      |setShadowStartColor(...)     |Set the start color of the shadow gradient |Color          |#88000000          |
+|shadow_endColor        |setShadowEndColor(...)       |Set the end color of the shadow gradient   |Color          |#00000000          |
+|shadow_blur_enabled    |setShadowBlurEnabled(...)    |Set the flag for enabling shadow blur      |boolean        |true               |
+|shadow_blur_radius     |setShadowBlurRadius(...)     |Set the shadow blur radius                 |int            |1                  |
+|shadow_alpha           |setShadowAlpha(...)          |Set the shadow alpha                       |int            |255                |
+|background_transparent |setBackgroundTransparent(...)|Set the flag for background transparency   |boolean        |true               |
+|background_color_to_ignore|setBackgroundColorToIgnore(...)|Set the background color to ignore    |Color          |#00000000          |
 
 # Limitations
 
