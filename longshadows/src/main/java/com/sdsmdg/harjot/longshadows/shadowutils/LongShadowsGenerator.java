@@ -46,7 +46,6 @@ public class LongShadowsGenerator {
     private boolean shouldShowWhenAllReady = Constants.DEFAULT_SHOW_WHEN_ALL_READY;
     private boolean shouldCalculateAsync = Constants.DEFAULT_CALCULATE_ASYNC;
     private boolean shouldAnimateShadow = Constants.DEFAULT_ANIMATE_SHADOW;
-
     private int animationDuration = Constants.DEFAULT_ANIMATION_TIME;
 
     private int childrenWithShadow;
@@ -60,6 +59,38 @@ public class LongShadowsGenerator {
         this.shouldShowWhenAllReady = shouldShowWhenAllReady;
         this.shouldCalculateAsync = shouldCalculateAsync;
         this.shouldAnimateShadow = shouldAnimateShadow;
+        this.animationDuration = animationDuration;
+    }
+
+    public boolean isShouldShowWhenAllReady() {
+        return shouldShowWhenAllReady;
+    }
+
+    public void setShouldShowWhenAllReady(boolean shouldShowWhenAllReady) {
+        this.shouldShowWhenAllReady = shouldShowWhenAllReady;
+    }
+
+    public boolean isShouldCalculateAsync() {
+        return shouldCalculateAsync;
+    }
+
+    public void setShouldCalculateAsync(boolean shouldCalculateAsync) {
+        this.shouldCalculateAsync = shouldCalculateAsync;
+    }
+
+    public boolean isShouldAnimateShadow() {
+        return shouldAnimateShadow;
+    }
+
+    public void setShouldAnimateShadow(boolean shouldAnimateShadow) {
+        this.shouldAnimateShadow = shouldAnimateShadow;
+    }
+
+    public int getAnimationDuration() {
+        return animationDuration;
+    }
+
+    public void setAnimationDuration(int animationDuration) {
         this.animationDuration = animationDuration;
     }
 

@@ -96,6 +96,9 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     public void setShouldShowWhenAllReady(boolean shouldShowWhenAllReady) {
         this.shouldShowWhenAllReady = shouldShowWhenAllReady;
+        if (longShadowsGenerator != null) {
+            longShadowsGenerator.setShouldShowWhenAllReady(shouldShowWhenAllReady);
+        }
     }
 
     public boolean isShouldCalculateAsync() {
@@ -104,6 +107,9 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     public void setShouldCalculateAsync(boolean shouldCalculateAsync) {
         this.shouldCalculateAsync = shouldCalculateAsync;
+        if (longShadowsGenerator != null) {
+            longShadowsGenerator.setShouldCalculateAsync(shouldCalculateAsync);
+        }
     }
 
     public boolean isShouldAnimateShadow() {
@@ -112,6 +118,9 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     public void setShouldAnimateShadow(boolean shouldAnimateShadow) {
         this.shouldAnimateShadow = shouldAnimateShadow;
+        if (longShadowsGenerator != null) {
+            longShadowsGenerator.setShouldAnimateShadow(shouldAnimateShadow);
+        }
     }
 
     public int getAnimationDuration() {
@@ -120,6 +129,9 @@ public class LongShadowsWrapper extends RelativeLayout {
 
     public void setAnimationDuration(int animationDuration) {
         this.animationDuration = animationDuration;
+        if (longShadowsGenerator != null) {
+            longShadowsGenerator.setAnimationDuration(animationDuration);
+        }
     }
 
     public boolean isAttached() {
@@ -137,6 +149,7 @@ public class LongShadowsWrapper extends RelativeLayout {
     public void setShouldClipChildren(boolean shouldClipChildren) {
         setClipChildren(shouldClipChildren);
         this.shouldClipChildren = shouldClipChildren;
+        requestLayout();
     }
 
     public boolean isShouldClipToPadding() {
@@ -146,6 +159,7 @@ public class LongShadowsWrapper extends RelativeLayout {
     public void setShouldClipToPadding(boolean shouldClipToPadding) {
         setClipToPadding(shouldClipToPadding);
         this.shouldClipToPadding = shouldClipToPadding;
+        requestLayout();
     }
 
     public void updateChildrenIfDirty() {
