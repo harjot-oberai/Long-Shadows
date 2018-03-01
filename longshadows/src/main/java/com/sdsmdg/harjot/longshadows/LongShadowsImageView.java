@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sdsmdg.harjot.longshadows.models.ShadowPath;
@@ -37,6 +38,8 @@ public class LongShadowsImageView extends ImageView {
     private int shadowAlpha = Constants.DEFAULT_SHADOW_ALPHA;
     private boolean backgroundTransparent = Constants.DEFAULT_BACKGROUND_TRANSPARENT;
     private int backgroundColor = Constants.DEFAULT_BACKGROUND_COLOR;
+
+    private ViewGroup parentLongShadowWrapper;
 
     public LongShadowsImageView(Context context) {
         super(context);
@@ -132,24 +135,33 @@ public class LongShadowsImageView extends ImageView {
 
     }
 
+    public void setParentLongShadowWrapper(ViewGroup v) {
+        this.parentLongShadowWrapper = v;
+    }
+
     public void setShadowPaths(ArrayList<ShadowPath> shadowPaths) {
         this.shadowPaths = shadowPaths;
         isShadowDirty = false;
     }
 
-    public void update(int shadowAlpha) {
+    public void updateWithShadowAlpha(int shadowAlpha) {
         if (shadowAlpha != -1) {
             shadowPaint.setAlpha(shadowAlpha);
         }
         invalidate();
     }
 
-    public boolean isShadowDirty() {
-        return isShadowDirty;
+    public void update() {
+        invalidate();
+        if (isShadowDirty) {
+            if (parentLongShadowWrapper != null) {
+                parentLongShadowWrapper.requestLayout();
+            }
+        }
     }
 
-    public void setShadowDirty(boolean shadowDirty) {
-        isShadowDirty = shadowDirty;
+    public boolean isShadowDirty() {
+        return isShadowDirty;
     }
 
     public String getShadowAngle() {
@@ -158,6 +170,8 @@ public class LongShadowsImageView extends ImageView {
 
     public void setShadowAngle(String shadowAngle) {
         this.shadowAngle = shadowAngle;
+        isShadowDirty = true;
+        shadowPaths = null;
     }
 
     public int getShadowStartColor() {
@@ -182,6 +196,8 @@ public class LongShadowsImageView extends ImageView {
 
     public void setShadowLength(String shadowLength) {
         this.shadowLength = shadowLength;
+        isShadowDirty = true;
+        shadowPaths = null;
     }
 
     public boolean isShadowBlurEnabled() {
@@ -190,6 +206,11 @@ public class LongShadowsImageView extends ImageView {
 
     public void setShadowBlurEnabled(boolean shadowBlurEnabled) {
         this.shadowBlurEnabled = shadowBlurEnabled;
+        if (shadowBlurEnabled) {
+            shadowPaint.setMaskFilter(new BlurMaskFilter(shadowBlurRadius, BlurMaskFilter.Blur.NORMAL));
+        } else {
+            shadowPaint.setMaskFilter(null);
+        }
     }
 
     public float getShadowBlurRadius() {
@@ -198,6 +219,9 @@ public class LongShadowsImageView extends ImageView {
 
     public void setShadowBlurRadius(float shadowBlurRadius) {
         this.shadowBlurRadius = shadowBlurRadius;
+        if (shadowBlurEnabled) {
+            shadowPaint.setMaskFilter(new BlurMaskFilter(shadowBlurRadius, BlurMaskFilter.Blur.NORMAL));
+        }
     }
 
     public int getShadowAlpha() {
@@ -206,6 +230,7 @@ public class LongShadowsImageView extends ImageView {
 
     public void setShadowAlpha(int shadowAlpha) {
         this.shadowAlpha = shadowAlpha;
+        shadowPaint.setAlpha(shadowAlpha);
     }
 
     public boolean isBackgroundTransparent() {
@@ -214,6 +239,8 @@ public class LongShadowsImageView extends ImageView {
 
     public void setBackgroundTransparent(boolean backgroundTransparent) {
         this.backgroundTransparent = backgroundTransparent;
+        isShadowDirty = true;
+        shadowPaths = null;
     }
 
     public int getBackgroundColor() {
@@ -223,6 +250,8 @@ public class LongShadowsImageView extends ImageView {
     @Override
     public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
+        isShadowDirty = true;
+        shadowPaths = null;
     }
 
 }

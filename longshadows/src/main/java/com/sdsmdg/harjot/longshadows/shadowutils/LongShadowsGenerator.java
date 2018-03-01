@@ -103,6 +103,13 @@ public class LongShadowsGenerator {
                 }
                 viewArrayList.addAll(getAllChildren((ViewGroup) child));
             } else {
+                if (child instanceof LongShadowsImageView) {
+                    ((LongShadowsImageView) child).setParentLongShadowWrapper(v);
+                } else if (child instanceof LongShadowsTextView) {
+                    ((LongShadowsTextView) child).setParentLongShadowWrapper(v);
+                } else if (child instanceof LongShadowsView) {
+                    ((LongShadowsView) child).setParentLongShadowWrapper(v);
+                }
                 viewArrayList.add(child);
             }
 
@@ -133,7 +140,7 @@ public class LongShadowsGenerator {
     }
 
     private void setLongShadowAtPosition(int childIndex) {
-        ShadowPath[] shadowPaths =  viewShadowPaths.get(childIndex);
+        ShadowPath[] shadowPaths = viewShadowPaths.get(childIndex);
         if (shadowPaths == null) {
             //Path calculation is still in progress
             return;
@@ -145,21 +152,21 @@ public class LongShadowsGenerator {
             if (shouldAnimateShadow) {
                 animateShadow(child);
             } else {
-                ((LongShadowsImageView) child).update(-1);
+                ((LongShadowsImageView) child).updateWithShadowAlpha(-1);
             }
         } else if (child instanceof LongShadowsTextView) {
             ((LongShadowsTextView) child).setShadowPaths(new ArrayList<>(Arrays.asList(shadowPaths)));
             if (shouldAnimateShadow) {
                 animateShadow(child);
             } else {
-                ((LongShadowsTextView) child).update(-1);
+                ((LongShadowsTextView) child).updateWithShadowAlpha(-1);
             }
         } else if (child instanceof LongShadowsView) {
             ((LongShadowsView) child).setShadowPaths(new ArrayList<>(Arrays.asList(shadowPaths)));
             if (shouldAnimateShadow) {
                 animateShadow(child);
             } else {
-                ((LongShadowsView) child).update(-1);
+                ((LongShadowsView) child).updateWithShadowAlpha(-1);
             }
         }
     }
@@ -180,11 +187,11 @@ public class LongShadowsGenerator {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (child instanceof LongShadowsImageView) {
-                    ((LongShadowsImageView) child).update((int) animation.getAnimatedValue());
+                    ((LongShadowsImageView) child).updateWithShadowAlpha((int) animation.getAnimatedValue());
                 } else if (child instanceof LongShadowsTextView) {
-                    ((LongShadowsTextView) child).update((int) animation.getAnimatedValue());
+                    ((LongShadowsTextView) child).updateWithShadowAlpha((int) animation.getAnimatedValue());
                 } else if (child instanceof LongShadowsView) {
-                    ((LongShadowsView) child).update((int) animation.getAnimatedValue());
+                    ((LongShadowsView) child).updateWithShadowAlpha((int) animation.getAnimatedValue());
                 }
             }
         });
