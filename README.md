@@ -30,6 +30,7 @@
   	* [Example 5 (Shadow Color)](#example-5-shadow-color)
   	* [Example 6 (Single View, Multiple Shadows)](#example-6-single-view-multiple-shadows)
   	* [Example 7 (Non-Transparent background)](#example-7-non-transparent-background)
+  * [Dynamically updating shadows](#dynamically-updating-shadows)
   * [Custom Views and ViewGroups](#using-long-shadows-with-custom-views-and-custom-viewgroups)
   * [How does this work ?](#how-does-this-work-)
   * [Documentation](#documentation)
@@ -275,6 +276,25 @@ If your image has say a white background, with some character in the middle and 
 > **Note** : As much as I want people to use this feature, I should warn that this won't work in several cases as android internally applies anti alias on images/bitmaps while scaling and this leads to some random colors around the boundaries. Since the algorithm checks for only one particular color, these new colors will be treated as contours and shadow will be generated, leading to unexpected results.<br><br>
 So if you want to have a background, I would suggest to draw the background in a different View and overlay this View with `LongShadowsView`/`LongShadowsImageView`/`LongShadowsTextView`, containing only the part you want to generate the shadow for.<br><br>
 If you are creating a custom view and want to draw a bitmap and use this feature, you may set `Paint#setFilterBitmap()` to `false`. This will disable anti aliasing for the bitmap.
+
+# Dynamically updating shadows
+
+All the shadow parameters can be updated dynamically through java. Here is a small example : 
+
+```java
+
+    LongShadowsImageView longShadowsImageView = (LongShadowsImageView) findViewById(R.id.long_shadows_image_view);
+
+    longShadowsImageView.setShadowAngle("135");
+
+    // Set various paramters here
+
+    // Call the update method at the end, for the changes to take effect
+    longShadowsImageView.update();
+
+```
+
+> **Note** : You need to call `update()` method at the end for the changes to take effect. This is done to avoid updating views again and again as the parameters are changed. This approach ensures that the views are updated only when the user is done with changing the parameters.
 
 # Custom Views and ViewGroups
 
