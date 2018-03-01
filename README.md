@@ -415,6 +415,8 @@ Attributes for `LongShadowsImageView`, `LongShadowsTextView` and `LongShadowsVie
 
 # Limitations
 
+1. The library uses native code to make calculations faster. This will result in a larger apk size if `unversalApk` is built (APK for all architectures). So to reduce apk size, you may need to build separate apks for different architecture using ABI filters in `build.gradle` fo your app. See [build.gradle](/app/build.gradle) for more details.
+
 # Credits
 
 1. **Piyush Mehrotra** ( [Codeforces](http://codeforces.com/profile/hm_98), [CodeChef](https://www.codechef.com/users/hm_98), [Github](https://github.com/hm98) ) : Implementation of algorithm to find the shadow paths from pixel array. This library would not have been possible without his talent and hard work.
