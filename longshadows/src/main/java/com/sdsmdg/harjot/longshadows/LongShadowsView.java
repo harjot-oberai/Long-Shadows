@@ -37,7 +37,7 @@ public class LongShadowsView extends View {
     private float shadowBlurRadius = Constants.DEFAULT_SHADOW_BLUR_RADIUS;
     private int shadowAlpha = Constants.DEFAULT_SHADOW_ALPHA;
     private boolean backgroundTransparent = Constants.DEFAULT_BACKGROUND_TRANSPARENT;
-    private int backgroundColor = Constants.DEFAULT_BACKGROUND_COLOR;
+    private int backgroundColorToIgnore = Constants.DEFAULT_BACKGROUND_COLOR_TO_IGNORE;
 
     private ViewGroup parentLongShadowWrapper;
 
@@ -81,8 +81,8 @@ public class LongShadowsView extends View {
                 shadowAlpha = a.getInt(attr, Constants.DEFAULT_SHADOW_ALPHA);
             } else if (attr == R.styleable.LongShadowsView_background_transparent) {
                 backgroundTransparent = a.getBoolean(attr, Constants.DEFAULT_BACKGROUND_TRANSPARENT);
-            } else if (attr == R.styleable.LongShadowsView_background_color) {
-                backgroundColor = a.getColor(attr, Constants.DEFAULT_BACKGROUND_COLOR);
+            } else if (attr == R.styleable.LongShadowsView_background_color_to_ignore) {
+                backgroundColorToIgnore = a.getColor(attr, Constants.DEFAULT_BACKGROUND_COLOR_TO_IGNORE);
             }
         }
         a.recycle();
@@ -243,13 +243,12 @@ public class LongShadowsView extends View {
         shadowPaths = null;
     }
 
-    public int getBackgroundColor() {
-        return backgroundColor;
+    public int getBackgroundColorToIgnore() {
+        return backgroundColorToIgnore;
     }
 
-    @Override
-    public void setBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
+    public void setBackgroundColorToIgnore(int backgroundColorToIgnore) {
+        this.backgroundColorToIgnore = backgroundColorToIgnore;
         isShadowDirty = true;
         shadowPaths = null;
     }

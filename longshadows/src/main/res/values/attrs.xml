@@ -9,7 +9,7 @@
     <attr name="shadow_blur_radius" format="float" />
     <attr name="shadow_alpha" format="integer" />
     <attr name="background_transparent" format="boolean" />
-    <attr name="background_color" format="color" />
+    <attr name="background_color_to_ignore" format="color" />
 
     <attr name="calculateAsync" format="boolean" />
     <attr name="showWhenAllReady" format="boolean" />
@@ -27,7 +27,7 @@
         <attr name="shadow_blur_radius" />
         <attr name="shadow_alpha" />
         <attr name="background_transparent" />
-        <attr name="background_color" />
+        <attr name="background_color_to_ignore" />
     </declare-styleable>
 
     <declare-styleable name="LongShadowsTextView">
@@ -39,7 +39,7 @@
         <attr name="shadow_blur_radius" />
         <attr name="shadow_alpha" />
         <attr name="background_transparent" />
-        <attr name="background_color" />
+        <attr name="background_color_to_ignore" />
     </declare-styleable>
 
     <declare-styleable name="LongShadowsView">
@@ -51,7 +51,7 @@
         <attr name="shadow_blur_radius" />
         <attr name="shadow_alpha" />
         <attr name="background_transparent" />
-        <attr name="background_color" />
+        <attr name="background_color_to_ignore" />
     </declare-styleable>
 
     <declare-styleable name="LongShadowsWrapper">

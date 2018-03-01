@@ -310,7 +310,7 @@ public class LongShadowsGenerator {
                     angles_array,
                     shadowAngleArraySize,
                     shadow_lengths,
-                    (longShadowsImageView.isBackgroundTransparent()) ? 0 : longShadowsImageView.getBackgroundColor());
+                    (longShadowsImageView.isBackgroundTransparent()) ? 0 : longShadowsImageView.getBackgroundColorToIgnore());
 
             for (ShadowPath path : paths) {
                 path.constructPath();
@@ -360,7 +360,7 @@ public class LongShadowsGenerator {
                     angles_array,
                     shadowAngleArraySize,
                     shadow_lengths,
-                    (longShadowsTextView.isBackgroundTransparent()) ? 0 : longShadowsTextView.getBackgroundColor());
+                    (longShadowsTextView.isBackgroundTransparent()) ? 0 : longShadowsTextView.getBackgroundColorToIgnore());
 
             for (ShadowPath path : paths) {
                 path.constructPath();
@@ -410,7 +410,7 @@ public class LongShadowsGenerator {
                     angles_array,
                     shadowAngleArraySize,
                     shadow_lengths,
-                    (longShadowsView.isBackgroundTransparent()) ? 0 : longShadowsView.getBackgroundColor());
+                    (longShadowsView.isBackgroundTransparent()) ? 0 : longShadowsView.getBackgroundColorToIgnore());
 
             for (ShadowPath path : paths) {
                 path.constructPath();

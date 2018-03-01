@@ -24,7 +24,7 @@ public class Constants {
 
     public static final boolean DEFAULT_BACKGROUND_TRANSPARENT = true;
 
-    public static final int DEFAULT_BACKGROUND_COLOR = Color.TRANSPARENT;
+    public static final int DEFAULT_BACKGROUND_COLOR_TO_IGNORE = Color.TRANSPARENT;
 
     public static final boolean DEFAULT_SHOW_WHEN_ALL_READY = true;
 
