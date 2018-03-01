@@ -327,7 +327,7 @@ public class CustomLongShadowsView extends LongShadowsView {
 }
 ```
 
-> **Note** : The custom view must be inside LongShadowsWrapper for the shadow to be generated.
+> **Note** : The custom view must be inside `LongShadowsWrapper` or `LongShadowsFrameLayoutWrapper` for the shadow to be generated.
 
 ### Custom View Group
 
@@ -415,7 +415,7 @@ Attributes for `LongShadowsImageView`, `LongShadowsTextView` and `LongShadowsVie
 
 # Limitations
 
-1. The library uses native code to make calculations faster. This will result in a larger apk size if `unversalApk` is built (APK for all architectures). So to reduce apk size, you may need to build separate apks for different architecture using ABI filters in `build.gradle` fo your app. See [build.gradle](/app/build.gradle) for more details.
+1. The library uses native code to make calculations faster. This will result in a larger apk size if `unversalApk` is built (APK for all architectures). So to reduce apk size, you may need to build separate apks for different architecture using ABI filters in `build.gradle` of your app. See [build.gradle](/app/build.gradle) for more details.
 
 # Credits
 
