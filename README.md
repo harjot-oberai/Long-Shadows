@@ -51,7 +51,7 @@
 Just add the following dependency in your app's `build.gradle`
 ```groovy
 dependencies {
-      compile 'com.sdsmdg.harjot:longshadows:1.0.1'
+      implementation 'com.sdsmdg.harjot:longshadows:1.0.1'
 }
 ```
 
