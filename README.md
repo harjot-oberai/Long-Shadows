@@ -246,7 +246,7 @@ If your image has say a white background, with some character in the middle and 
 
 **e.g.** Lets say we want to display the google icon which has a white rectangle that acts as the background of the letter `G`.<br> Lets see how can we generate long shadow only for the letter and avoid building the shadow for the rectangular white background.
 
-> For this example we will create a circular shape drawable `rectangular_white_background.xml` which will act as the background to icon vector `ic_google_icon_colored.xml`. You can find these resource files [here](/app/src/main/res/drawable/)
+> For this example we will create a rectangular drawable `rectangular_white_background.xml` which will act as the background to icon vector `ic_google_icon_colored.xml`. You can find these resource files [here](/app/src/main/res/drawable/)
 
 #### XML
 ```xml
